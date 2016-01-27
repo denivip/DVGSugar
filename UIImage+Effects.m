@@ -399,7 +399,7 @@ void cleanupBuffer(void *userData, void *buf_data)
     return img;
 }
 
-- (UIImage *)dv_imageAspectFillScaledToSize:(CGSize)size
+- (UIImage *)imageAspectFillScaledToSize:(CGSize)size
 {
     CGSize newSize;
     CGFloat widthRatio = size.width / self.size.width;
@@ -415,7 +415,7 @@ void cleanupBuffer(void *userData, void *buf_data)
     return newImage;
 }
 
-- (UIImage *)dv_imageWithNormalizedOrientation
+- (UIImage *)imageWithNormalizedOrientation
 {
     CGSize size = self.size;
     UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
@@ -426,27 +426,20 @@ void cleanupBuffer(void *userData, void *buf_data)
     return newImage;
 }
 
-- (UIImage *)dv_imageOverlayedWithColor:(UIColor *)color
+- (UIImage *)imageWithColor:(UIColor *)color1
 {
-    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0);
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    [color setFill];
-    
     CGContextTranslateCTM(context, 0, self.size.height);
     CGContextScaleCTM(context, 1.0, -1.0);
-    
-    CGContextSetBlendMode(context, kCGBlendModeOverlay);
+    CGContextSetBlendMode(context, kCGBlendModeNormal);
     CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
-    
     CGContextClipToMask(context, rect, self.CGImage);
-    CGContextAddRect(context, rect);
-    CGContextDrawPath(context, kCGPathFill);
-    
-    UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
+    [color1 setFill];
+    CGContextFillRect(context, rect);
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
-    return coloredImg;
+    return newImage;
 }
 
 @end

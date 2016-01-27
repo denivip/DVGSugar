@@ -1,5 +1,6 @@
 #ifndef DVGImageUtils_h
 #define DVGImageUtils_h
+#import <UIKit/UIKit.h>
 
 @interface DVGImageUtils : NSObject
 
@@ -41,9 +42,9 @@
 + (UIImage *)resizableImageWithNamed:(NSString*)named;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 - (UIImage *)imageRotatedUp;
-- (UIImage *)dv_imageAspectFillScaledToSize:(CGSize)size;
-- (UIImage *)dv_imageWithNormalizedOrientation;
-- (UIImage *)dv_imageOverlayedWithColor:(UIColor *)color;
+- (UIImage *)imageAspectFillScaledToSize:(CGSize)size;
+- (UIImage *)imageWithNormalizedOrientation;
+- (UIImage *)imageWithColor:(UIColor *)color1;
 
 @end
 

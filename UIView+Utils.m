@@ -10,6 +10,32 @@
 
 @implementation UIView (UIViewUtils)
 
++ (CGRect)distributeFlowlyViews:(NSArray*)views withWidth:(CGFloat)ww withSpacing:(CGFloat)zz
+{
+    CGFloat b_x = 0;
+    CGFloat b_y = 0;
+    CGFloat b_w = 0.0;
+    CGFloat b_h = 0.0;
+    for(UIView* v in views){
+        CGRect f = v.frame;
+        if(b_x + f.size.width >= ww){
+            b_x = 0;
+            b_y += f.size.height+zz;
+        }
+        
+        f.origin = CGPointMake(b_x, b_y);
+        v.frame = f;
+        if(f.origin.x+f.size.width > b_w){
+            b_w = f.origin.x+f.size.width;
+        }
+        if(f.origin.y+f.size.height > b_h){
+            b_h = f.origin.y+f.size.height;
+        }
+        b_x += f.size.width + zz;
+    }
+    return CGRectMake(0,0,b_w,b_h);
+}
+
 + (void)setupConstraintsInView:(UIView*)root makeView:(UIView*)v followView:(UIView*)target withInsets:(UIEdgeInsets)insets withOffset:(CGPoint)offset {
     v.translatesAutoresizingMaskIntoConstraints = NO;
     [root addConstraints:@[
