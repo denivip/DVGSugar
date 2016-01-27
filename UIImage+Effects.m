@@ -273,6 +273,21 @@ void cleanupBuffer(void *userData, void *buf_data)
 { free(buf_data); }
 
 //| ----------------------------------------------------------------------------
++ (NSMutableArray*)animatedImageWithImageNameFormatNoCache:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t
+{
+    NSMutableArray* images = @[].mutableCopy;
+    UIImage* img;
+    for(int i=val_b;i<=val_t;i++){
+        NSString* imgname = [NSString stringWithFormat:imgformat, i];
+        //img = [UIImage imageNamed:imgname];
+        img = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:imgname ofType:@"png"]];
+        if(img){
+            [images addObject:img];
+        }
+    }
+    return images;
+}
+
 + (NSMutableArray*)animatedImageWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t
 {
     NSMutableArray* images = @[].mutableCopy;
@@ -280,7 +295,9 @@ void cleanupBuffer(void *userData, void *buf_data)
     for(int i=val_b;i<=val_t;i++){
         NSString* imgname = [NSString stringWithFormat:imgformat, i];
         img = [UIImage imageNamed:imgname];
-        [images addObject:img];
+        if(img){
+            [images addObject:img];
+        }
     }
     return images;
 }

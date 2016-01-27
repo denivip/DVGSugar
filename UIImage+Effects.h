@@ -10,6 +10,7 @@
 + (UIImage*)imageByApplyingTintEffectWithColor:(UIColor *)tintColor toImage:(UIImage*)inputImage;
 + (UIImage *)imageWithColor:(UIColor *)color withSize:(CGSize)size;
 
++ (NSMutableArray*)animatedImageWithImageNameFormatNoCache:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
 + (NSMutableArray*)animatedImageWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
 + (UIImageView *)imageViewWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
 
