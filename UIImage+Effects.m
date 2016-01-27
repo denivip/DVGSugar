@@ -1,19 +1,34 @@
-//
-//  UIImageEffects.m
-//  VieLoco
-//
-//  Created by IPv6 on 05/08/15.
-//  Copyright © 2015 DENIVIP Group. All rights reserved.
-//
-
 #import "UIImage+Effects.h"
 
 @import Accelerate;
 
-@implementation UIImageEffects
+@implementation DVGImageUtils
 
-#pragma mark -
-#pragma mark - Effects
++ (UIImage *)imageWithColor:(UIColor *)color withSize:(CGSize)size
+{
+    static NSMutableDictionary* imageCaches = nil;
+    if(imageCaches == nil){
+        imageCaches = @{}.mutableCopy;
+    }
+    const CGFloat *components = CGColorGetComponents(color.CGColor);
+    NSString* cachekey = [NSString stringWithFormat:@"%f-%f-%f-%f-%f-%f",components[0],components[1],components[2],components[3],size.width,size.height];
+    UIImage *image = [imageCaches objectForKey:cachekey];
+    if(image != nil){
+        return image;
+    }
+    CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [imageCaches setObject:image forKey:cachekey];
+    return image;
+}
 
 //| ----------------------------------------------------------------------------
 + (UIImage *)imageByApplyingLightEffectToImage:(UIImage*)inputImage
@@ -59,9 +74,6 @@
     }
     return [self imageByApplyingBlurToImage:inputImage withRadius:20 tintColor:effectColor saturationDeltaFactor:-1.0 maskImage:nil];
 }
-
-#pragma mark -
-#pragma mark - Implementation
 
 //| ----------------------------------------------------------------------------
 + (UIImage*)imageByApplyingBlurToImage:(UIImage*)inputImage withRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage
@@ -260,7 +272,7 @@
 void cleanupBuffer(void *userData, void *buf_data)
 { free(buf_data); }
 
-//---------------------------
+//| ----------------------------------------------------------------------------
 + (NSMutableArray*)animatedImageWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t
 {
     NSMutableArray* images = @[].mutableCopy;
@@ -275,7 +287,7 @@ void cleanupBuffer(void *userData, void *buf_data)
 
 + (UIImageView *)imageViewWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t
 {
-    NSMutableArray* images = [UIImageEffects animatedImageWithImageNameFormat:imgformat animseqFrom:val_b animseqTo:val_t];
+    NSMutableArray* images = [DVGImageUtils animatedImageWithImageNameFormat:imgformat animseqFrom:val_b animseqTo:val_t];
     UIImage* img = [images firstObject];
     //Position the explosion image view somewhere in the middle of your current view. In my case, I want it to take the whole view.Try to make the png to mach the view size, don't stretch it
     UIImageView* _out = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, img.size.width, img.size.height)];
@@ -283,6 +295,158 @@ void cleanupBuffer(void *userData, void *buf_data)
     //_out.animationDuration = 0.5;
     _out.animationRepeatCount = 0;
     return _out;
+}
+
+@end
+
+@implementation UIImage (DVUtility)
+
++ (UIImage*)resizableImageWithNamed:(NSString*)named{
+    return [UIImage resizableImageWithNamed:named withInsets:UIEdgeInsetsMake(6.f, 6.f, 6.f, 6.f)];
+}
+
++ (UIImage*)resizableImageWithNamed:(NSString*)named withInsets:(UIEdgeInsets)insets{
+    UIImage* image = [UIImage imageNamed:named];
+    return [image resizableImageWithCapInsets:insets];
+}
+
++ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+- (UIImage *)imageRotatedUp {
+    
+    // No-op if the orientation is already correct
+    if (self.imageOrientation == UIImageOrientationUp) return self;
+    
+    // We need to calculate the proper transformation to make the image upright.
+    // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch (self.imageOrientation) {
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.width, self.size.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+            
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
+            
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, self.size.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        case UIImageOrientationUp:
+        case UIImageOrientationUpMirrored:
+            break;
+    }
+    
+    switch (self.imageOrientation) {
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+            
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, self.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        case UIImageOrientationUp:
+        case UIImageOrientationDown:
+        case UIImageOrientationLeft:
+        case UIImageOrientationRight:
+            break;
+    }
+    
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGContextRef ctx = CGBitmapContextCreate(NULL, self.size.width, self.size.height,
+                                             CGImageGetBitsPerComponent(self.CGImage), 0,
+                                             CGImageGetColorSpace(self.CGImage),
+                                             CGImageGetBitmapInfo(self.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    switch (self.imageOrientation) {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            // Grr...
+            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.height,self.size.width), self.CGImage);
+            break;
+            
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,self.size.width,self.size.height), self.CGImage);
+            break;
+    }
+    
+    // And now we just create a new UIImage from the drawing context
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+    UIImage *img = [UIImage imageWithCGImage:cgimg];
+    CGContextRelease(ctx);
+    CGImageRelease(cgimg);
+    return img;
+}
+
+- (UIImage *)dv_imageAspectFillScaledToSize:(CGSize)size
+{
+    CGSize newSize;
+    CGFloat widthRatio = size.width / self.size.width;
+    newSize = CGSizeMake(self.size.width * widthRatio, self.size.height * widthRatio);
+    CGFloat heightRatio = size.height / newSize.height;
+    newSize = CGSizeMake(newSize.width * heightRatio, newSize.height * heightRatio);
+    
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+- (UIImage *)dv_imageWithNormalizedOrientation
+{
+    CGSize size = self.size;
+    UIGraphicsBeginImageContextWithOptions(size, NO, 1.0);
+    [self drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
+- (UIImage *)dv_imageOverlayedWithColor:(UIColor *)color
+{
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    [color setFill];
+    
+    CGContextTranslateCTM(context, 0, self.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    CGContextSetBlendMode(context, kCGBlendModeOverlay);
+    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    
+    CGContextClipToMask(context, rect, self.CGImage);
+    CGContextAddRect(context, rect);
+    CGContextDrawPath(context, kCGPathFill);
+    
+    UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return coloredImg;
 }
 
 @end

@@ -1,20 +1,17 @@
-//
-//  UIImageEffects.h
-//  VieLoco
-//
-//  Created by IPv6 on 05/08/15.
-//  Copyright © 2015 DENIVIP Group. All rights reserved.
-//
+#ifndef DVGImageUtils_h
+#define DVGImageUtils_h
 
-#ifndef UIImageEffects_h
-#define UIImageEffects_h
-
-@interface UIImageEffects : NSObject
+@interface DVGImageUtils : NSObject
 
 + (UIImage*)imageByApplyingLightEffectToImage:(UIImage*)inputImage;
 + (UIImage*)imageByApplyingExtraLightEffectToImage:(UIImage*)inputImage;
 + (UIImage*)imageByApplyingDarkEffectToImage:(UIImage*)inputImage;
 + (UIImage*)imageByApplyingTintEffectWithColor:(UIColor *)tintColor toImage:(UIImage*)inputImage;
++ (UIImage *)imageWithColor:(UIColor *)color withSize:(CGSize)size;
+
++ (NSMutableArray*)animatedImageWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
++ (UIImageView *)imageViewWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
+
 
 //| ----------------------------------------------------------------------------
 //! Applies a blur, tint color, and saturation adjustment to @a inputImage,
@@ -37,9 +34,17 @@
 //!         by this mask.  This must be an image mask or it must meet the
 //!         requirements of the mask parameter of CGContextClipToMask.
 + (UIImage*)imageByApplyingBlurToImage:(UIImage*)inputImage withRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;
+@end
 
-+ (NSMutableArray*)animatedImageWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
-+ (UIImageView *)imageViewWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
+@interface UIImage (DVUtility)
+
++ (UIImage *)resizableImageWithNamed:(NSString*)named;
++ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
+- (UIImage *)imageRotatedUp;
+- (UIImage *)dv_imageAspectFillScaledToSize:(CGSize)size;
+- (UIImage *)dv_imageWithNormalizedOrientation;
+- (UIImage *)dv_imageOverlayedWithColor:(UIColor *)color;
+
 @end
 
 #endif /* UIImageEffects_h */
