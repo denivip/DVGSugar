@@ -11,6 +11,7 @@
 @interface UIView (UIViewUtils)
 
 - (BOOL)findAndResignFirstResponder;
++ (NSArray*)getAllSubviewIn:(UIView*)view;
 + (void)addSubview:(UIView*)v toView:(UIView*)p withAligment:(NSArray*)xy_rwh;
 + (void)setupConstraintsSameWHOfView:(UIView*)v inView:(UIView*)p;
 + (void)setupConstraintsInView:(UIView*)root makeView:(UIView*)v followView:(UIView*)p withInsets:(UIEdgeInsets)insets withOffset:(CGPoint)offset;

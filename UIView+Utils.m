@@ -10,6 +10,17 @@
 
 @implementation UIView (UIViewUtils)
 
++ (NSArray*)getAllSubviewIn:(UIView*)view {
+    NSMutableArray* allSubViews = @[].mutableCopy;
+    NSArray* subvs = [view subviews];
+    for(UIView* subview in subvs){
+        NSArray* subview_insubv = [UIView getAllSubviewIn:subview];
+        [allSubViews addObjectsFromArray:subview_insubv];
+    }
+    [allSubViews addObjectsFromArray:subvs];
+    return allSubViews;
+}
+
 + (CGRect)distributeFlowlyViews:(NSArray*)views withWidth:(CGFloat)ww withSpacing:(CGFloat)zz
 {
     CGFloat b_x = 0;
