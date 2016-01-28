@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonDigest.h>
 
 @interface NSString (Extended)
+- (NSString *)generateMD5:(NSString *)string;
 
 - (NSString *)URLEncode;
 - (NSString *)URLEncodeUsingEncoding:(NSStringEncoding)encoding;
