@@ -1,13 +1,4 @@
-//
-//  NSDictionary+Additions.m
-//  Together
-//
-//  Created by Ilya Puchka on 20.12.12.
-//  Copyright (c) 2012 DENIVIP Group. All rights reserved.
-//
-
 #import "NSDictionary+Additions.h"
-
 @implementation NSDictionary (Additions)
 
 - (NSDictionary *)dictionaryWithValuesForKeysSkippingNonexistent:(NSArray *)keys
