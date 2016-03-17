@@ -13,9 +13,14 @@
 
 @interface UIColor (HexColors)
 
-+(UIColor *)colorWithHexString:(NSString *)hexString;
-+(NSString *)hexValuesFromUIColor:(UIColor *)color;
++ (UIColor *)colorWithHexString:(NSString *)hexString;
++ (UIColor *)colorWithHexString:(NSString *)hexString alpha:(CGFloat)alpha;
 
++ (UIColor *)colorWith8BitRed:(NSInteger)red green:(NSInteger)green blue:(NSInteger)blue;
++ (UIColor *)colorWith8BitRed:(NSInteger)red green:(NSInteger)green blue:(NSInteger)blue alpha:(CGFloat)alpha;
+
++ (NSString *)hexValuesFromUIColor:(UIColor *)color;
++ (UIColor *)colorWithHexString2:(NSString *)hexString;
 @end
 
 #endif /* UIColor_HexColors_h */
