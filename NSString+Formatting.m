@@ -177,14 +177,20 @@
         return @"";
     }
     NSDate* ts = [NSDate date];
-    if([ts timeIntervalSinceDate:date] < 2*60){
+    NSTimeInterval secs = [ts timeIntervalSinceDate:date];
+    int minutes = (int)[ts timeIntervalSinceDate:date]/60;
+    int hours = (int)[ts timeIntervalSinceDate:date]/(60*60);
+    int days = (int)[ts timeIntervalSinceDate:date]/(24*60*60);
+    if(secs < 2*60){
         return @"a minute ago";
-    }
-    if([ts timeIntervalSinceDate:date] < 30*60){
-        return [NSString stringWithFormat:@"%i minutes ago", (int)[ts timeIntervalSinceDate:date]/60];
-    }
-    if([ts timeIntervalSinceDate:date] < 60*60){
+    }else if(secs < 30*60){
+        return [NSString stringWithFormat:@"%i minutes ago", minutes];
+    }else if(secs < 60*60){
         return @"an hour ago";
+    }else if(secs < 24*60*60){
+        return [NSString stringWithFormat:@"%ih %im ago", hours, minutes%60];
+    }else if(secs < 365*24*60*60){
+        return [NSString stringWithFormat:@"%id %ih %im ago", days, hours%24, minutes%60];
     }
     return [NSDate dvg_NiceTimestampWithDate:date];
 }
