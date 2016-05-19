@@ -16,4 +16,5 @@
 + (void)setupConstraintsSameWHOfView:(UIView*)v inView:(UIView*)p;
 + (void)setupConstraintsInView:(UIView*)root makeView:(UIView*)v followView:(UIView*)p withInsets:(UIEdgeInsets)insets withOffset:(CGPoint)offset;
 + (CGRect)distributeFlowlyViews:(NSArray*)views withWidth:(CGFloat)ww withSpacing:(CGFloat)zz;
+- (void)setRoundedBackgroundWithColor:(UIColor*)bg;
 @end
