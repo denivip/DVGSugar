@@ -10,7 +10,15 @@
 #import "UIColor+HexColors.h"
 
 @implementation UIColor (HexColors)
-
+- (CGFloat)getAlpha
+{
+    CGFloat red;
+    CGFloat green;
+    CGFloat blue;
+    CGFloat alpha;
+    [self getRed:&red green:&green blue:&blue alpha:&alpha];
+    return alpha;
+}
 
 + (UIColor *)colorWithHexString:(NSString *)hexString
 {
