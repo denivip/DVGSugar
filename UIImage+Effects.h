@@ -14,7 +14,6 @@
 + (NSMutableArray*)animatedImageWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
 + (UIImageView *)imageViewWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
 
-
 //| ----------------------------------------------------------------------------
 //! Applies a blur, tint color, and saturation adjustment to @a inputImage,
 //! optionally within the area specified by @a maskImage.
@@ -42,6 +41,8 @@
 
 + (UIImage *)resizableImageWithNamed:(NSString*)named;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
++ (UIImage *)imageWithImage:(UIImage *)image downscaledToHeight:(CGFloat)height;
++ (UIImage *)imageWithImage:(UIImage *)image croppedToSize:(CGSize)size;
 - (UIImage *)imageRotatedUp;
 - (UIImage *)imageAspectFillScaledToSize:(CGSize)size;
 - (UIImage *)imageWithNormalizedOrientation;
