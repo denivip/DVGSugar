@@ -514,4 +514,5 @@ void cleanupBuffer(void *userData, void *buf_data)
     
     return scaledImage;
 }
+
 @end
