@@ -57,4 +57,15 @@
     return res;
 }
 
+- (id)objectForNestedKeys:(NSArray*)aKeys or:(id)defValue {
+    id node = self;
+    for(NSString* key in aKeys){
+        id n = [(NSDictionary*)node objectForKey:key];
+        if(n == nil || n == [NSNull null]){
+            return defValue;
+        }
+        node = n;
+    }
+    return node?:defValue;
+}
 @end
