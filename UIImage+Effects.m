@@ -318,24 +318,6 @@ void cleanupBuffer(void *userData, void *buf_data)
 
 @implementation UIImage (DVUtility)
 
-+ (UIImage*)resizableImageWithNamed:(NSString*)named{
-    return [UIImage resizableImageWithNamed:named withInsets:UIEdgeInsetsMake(6.f, 6.f, 6.f, 6.f)];
-}
-
-+ (UIImage*)resizableImageWithNamed:(NSString*)named withInsets:(UIEdgeInsets)insets{
-    UIImage* image = [UIImage imageNamed:named];
-    return [image resizableImageWithCapInsets:insets];
-}
-
-+ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
-    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    return newImage;
-}
-
 - (UIImage *)imageRotatedUp {
     
     // No-op if the orientation is already correct
@@ -459,7 +441,16 @@ void cleanupBuffer(void *userData, void *buf_data)
     return newImage;
 }
 
-+ (UIImage *)imageByCroppingImage:(UIImage *)image toSize:(CGSize)size
++ (UIImage*)resizableImageWithNamed:(NSString*)named{
+    return [UIImage resizableImageWithNamed:named withInsets:UIEdgeInsetsMake(6.f, 6.f, 6.f, 6.f)];
+}
+
++ (UIImage*)resizableImageWithNamed:(NSString*)named withInsets:(UIEdgeInsets)insets{
+    UIImage* image = [UIImage imageNamed:named];
+    return [image resizableImageWithCapInsets:insets];
+}
+
++ (UIImage *)imageWithImage:(UIImage *)image croppedToSize:(CGSize)size
 {
     double newCropWidth, newCropHeight;
     
@@ -495,7 +486,7 @@ void cleanupBuffer(void *userData, void *buf_data)
     return cropped;
 }
 
-+ (UIImage *)imageByDownscalingImage:(UIImage *)image toHeight:(CGFloat)height
++ (UIImage *)imageWithImage:(UIImage *)image downscaledToHeight:(CGFloat)height
 {
     CGSize imageSize = image.size;
     CGFloat scale = height / imageSize.height;
@@ -515,4 +506,12 @@ void cleanupBuffer(void *userData, void *buf_data)
     return scaledImage;
 }
 
++ (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
 @end
