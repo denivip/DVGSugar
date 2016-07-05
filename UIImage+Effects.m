@@ -450,9 +450,32 @@ void cleanupBuffer(void *userData, void *buf_data)
     return [image resizableImageWithCapInsets:insets];
 }
 
++ (UIImage *)imageWithImage:(UIImage *)image aspectFilledToSize:(CGSize)newSize
+{
+    // https://gist.github.com/tomasbasham/10533743
+    CGRect scaledImageRect = CGRectZero;
+    
+    CGFloat aspectWidth = newSize.width / image.size.width;
+    CGFloat aspectHeight = newSize.height / image.size.height;
+    CGFloat aspectRatio = MAX ( aspectWidth, aspectHeight );
+    
+    scaledImageRect.size.width = image.size.width * aspectRatio;
+    scaledImageRect.size.height = image.size.height * aspectRatio;
+    scaledImageRect.origin.x = (newSize.width - scaledImageRect.size.width) / 2.0f;
+    scaledImageRect.origin.y = (newSize.height - scaledImageRect.size.height) / 2.0f;
+    
+    UIGraphicsBeginImageContextWithOptions( newSize, NO, 0 );
+    [image drawInRect:scaledImageRect];
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+    
+}
+
 + (UIImage *)imageWithImage:(UIImage *)image croppedToSize:(CGSize)size
 {
-    double newCropWidth, newCropHeight;
+    NSInteger newCropWidth, newCropHeight;
     
     //=== To crop more efficently =====//
     if(image.size.width < image.size.height){
@@ -474,8 +497,8 @@ void cleanupBuffer(void *userData, void *buf_data)
     }
     //==============================//
     
-    double x = image.size.width/2.0 - newCropWidth/2.0;
-    double y = image.size.height/2.0 - newCropHeight/2.0;
+    NSInteger x = image.size.width/2.0 - newCropWidth/2.0;
+    NSInteger y = image.size.height/2.0 - newCropHeight/2.0;
     
     CGRect cropRect = CGRectMake(x, y, newCropWidth, newCropHeight);
     CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
