@@ -96,14 +96,14 @@
     return NO;
 }
 
-+ (void)addSubview:(UIView*)v toView:(UIView*)p withAligment:(NSArray*)xy_rwh
++ (void)addSubview:(UIView*)v toView:(UIView*)p withAligment:(NSArray*)pWpH_xy_vWvH
 {
     // xy_rwh -> [p width percentage, p height percentage, x offset,y offset,v width percentage, v height percentage]
-    // Example: [0.5,0.5,0,0,0.5,0.5] -> center to center
+    // Example: [@(0.5),@(0.5),@(0),@(0),@(0.5),@(0.5)] -> center to center
     CGRect vf = v.frame;
     CGRect pf = p.frame;
-    CGFloat new_x = pf.size.width*[xy_rwh[0] floatValue] + [xy_rwh[2] floatValue] - vf.size.width*[xy_rwh[4] floatValue];
-    CGFloat new_y = pf.size.height*[xy_rwh[1] floatValue] + [xy_rwh[3] floatValue] - vf.size.height*[xy_rwh[5] floatValue];
+    CGFloat new_x = pf.size.width*[pWpH_xy_vWvH[0] floatValue] + [pWpH_xy_vWvH[2] floatValue] - vf.size.width*[pWpH_xy_vWvH[4] floatValue];
+    CGFloat new_y = pf.size.height*[pWpH_xy_vWvH[1] floatValue] + [pWpH_xy_vWvH[3] floatValue] - vf.size.height*[pWpH_xy_vWvH[5] floatValue];
     v.frame = CGRectMake(new_x, new_y, vf.size.width, vf.size.height);
     [p addSubview:v];
 }
