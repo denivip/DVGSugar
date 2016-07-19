@@ -16,7 +16,9 @@ static char overviewKey;
 @dynamic actions;
 
 - (void) setAction:(NSString*)action withBlock:(void(^)())block {
-    
+    if(!block){
+        return;
+    }
     if ([self actions] == nil) {
         [self setActions:[[NSMutableDictionary alloc] init]];
     }
