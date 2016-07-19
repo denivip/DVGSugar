@@ -99,7 +99,7 @@
 + (void)addSubview:(UIView*)v toView:(UIView*)p withAligment:(NSArray*)pWpH_xy_vWvH
 {
     // xy_rwh -> [p width percentage, p height percentage, x offset,y offset,v width percentage, v height percentage]
-    // Example: [@(0.5),@(0.5),@(0),@(0),@(0.5),@(0.5)] -> center to center
+    // Example: @[@(0.5),@(0.5),@(0),@(0),@(0.5),@(0.5)] -> center to center
     CGRect vf = v.frame;
     CGRect pf = p.frame;
     CGFloat new_x = pf.size.width*[pWpH_xy_vWvH[0] floatValue] + [pWpH_xy_vWvH[2] floatValue] - vf.size.width*[pWpH_xy_vWvH[4] floatValue];
