@@ -236,6 +236,16 @@ NSUInteger LIRandomUnsignedInteger(NSUInteger lowerBound, NSUInteger upperBound)
     return [referenceDate dateByAddingTimeInterval:randomTimeInterval];
 }
 
+
++ (NSDate *)dateNear
+{
+    NSDate *currentDate = [NSDate date];
+
+    NSTimeInterval randomTimeInterval = -1*LIRandomUnsignedInteger(0, 6*30*24*60*60);
+    
+    return [currentDate dateByAddingTimeInterval:randomTimeInterval];
+}
+
 #pragma mark - URLs for Placeholder Images
 
 + (NSURL *)URLForPlaceholderImageWithSize:(LISize)size

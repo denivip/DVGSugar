@@ -120,6 +120,11 @@ typedef NS_ENUM(NSInteger, LIPlaceholderImageService)
  */
 + (NSDate *)date;
 
+/**
+ * Generates a random date and time within the last 6 months.
+ */
++ (NSDate *)dateNear;
+
 ///-------------------------------
 /// @name Images
 ///-------------------------------
