@@ -197,6 +197,13 @@ NSUInteger LIRandomUnsignedInteger(NSUInteger lowerBound, NSUInteger upperBound)
     return [NSString stringWithFormat:@"%ld", n];
 }
 
++ (NSInteger)integerBetween:(NSInteger)n1 and:(NSInteger)n2 {
+    double f1 = rand();
+    double f2 = RAND_MAX;
+    NSInteger n = n1 + (n2-n1)*f1/f2;
+    return n;
+}
+
 + (NSURL *)URL
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@/", [[self domains] li_randomObject]]];

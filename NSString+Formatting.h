@@ -24,7 +24,7 @@
 + (NSString*)dvg_DateSince:(NSDate *)dt;
 + (NSString*)dvg_NiceDatestampSince:(NSDate*)dt;
 + (NSString*)dvg_NiceTimestampWithDate:(NSDate *)date;
-+ (NSString*)dvg_NiceTimesinceWithDate:(NSDate *)date;
++ (NSString*)dvg_NiceTimesinceWithDate:(NSDate *)date short:(BOOL)isShort;
 + (BOOL)isSameDayWithDate1:(NSDate*)date1 date2:(NSDate*)date2;
 
 @end

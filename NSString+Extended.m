@@ -9,6 +9,17 @@
 #import "NSString+Extended.h"
 
 @implementation NSString (Extended)
++ (NSString *)stringWithBigNumber:(NSInteger)number {
+    NSMutableString* res = [[NSMutableString alloc] init];
+    if(number > 1000){
+        [res appendFormat:@"%lu,",(NSInteger)number/1000];
+        [res appendFormat:@"%lu",(NSInteger)number%1000];
+    }else{
+        [res appendFormat:@"%lu",(NSInteger)number];
+    }
+    return res;
+}
+
 - (NSString *)generateMD5:(NSString *)string{
     const char *cStr = [string UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];

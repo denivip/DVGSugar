@@ -103,6 +103,7 @@ typedef NS_ENUM(NSInteger, LIPlaceholderImageService)
  * Generates a random number
  */
 + (NSString *)numberBetween:(NSInteger)n1 and:(NSInteger)n2;
++ (NSInteger)integerBetween:(NSInteger)n1 and:(NSInteger)n2;
 
 /**
  * Generates a random URL address with the HTTP prefix.

@@ -11,6 +11,7 @@
 
 @interface NSString (Extended)
 - (NSString *)generateMD5:(NSString *)string;
++ (NSString *)stringWithBigNumber:(NSInteger)number;
 
 - (NSString *)URLEncode;
 - (NSString *)URLEncodeUsingEncoding:(NSStringEncoding)encoding;
