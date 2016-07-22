@@ -27,6 +27,7 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #import <UIKit/UIGestureRecognizer.h>
+// -fno-objc-arc required for m file!
 
 @interface UIGestureRecognizer (Blocks)
 

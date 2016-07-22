@@ -13,7 +13,7 @@
     NSMutableString* res = [[NSMutableString alloc] init];
     if(number > 1000){
         [res appendFormat:@"%lu,",(NSInteger)number/1000];
-        [res appendFormat:@"%lu",(NSInteger)number%1000];
+        [res appendFormat:@"%03lu",(NSInteger)number%1000];
     }else{
         [res appendFormat:@"%lu",(NSInteger)number];
     }
