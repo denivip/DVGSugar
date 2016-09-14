@@ -57,19 +57,31 @@
 + (void)setupConstraintsInView:(UIView*)root makeView:(UIView*)v followView:(UIView*)target withInsets:(UIEdgeInsets)insets withOffset:(CGPoint)offset {
     v.translatesAutoresizingMaskIntoConstraints = NO;
     [root addConstraints:@[
-                       [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:target
-                                                    attribute:NSLayoutAttributeLeft
-                                                   multiplier:1.0 constant:insets.left + offset.x],
-                       [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:target
-                                                    attribute:NSLayoutAttributeRight
-                                                   multiplier:1.0 constant:-insets.right + offset.x],
-                       [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:target
-                                                    attribute:NSLayoutAttributeTop
-                                                   multiplier:1.0 constant:insets.top + offset.y],
-                       [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:target
-                                                    attribute:NSLayoutAttributeBottom
-                                                   multiplier:1.0 constant:-insets.bottom + offset.y]
-     ]];
+                           [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:target
+                                                        attribute:NSLayoutAttributeLeft
+                                                       multiplier:1.0 constant:insets.left + offset.x],
+                           [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:target
+                                                        attribute:NSLayoutAttributeRight
+                                                       multiplier:1.0 constant:-insets.right + offset.x],
+                           [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:target
+                                                        attribute:NSLayoutAttributeTop
+                                                       multiplier:1.0 constant:insets.top + offset.y],
+                           [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:target
+                                                        attribute:NSLayoutAttributeBottom
+                                                       multiplier:1.0 constant:-insets.bottom + offset.y]
+                           ]];
+}
+
++ (void)setupConstraintsInView:(UIView*)root makeView:(UIView*)v followView:(UIView*)target withCenterOffset:(CGPoint)offset {
+    v.translatesAutoresizingMaskIntoConstraints = NO;
+    [root addConstraints:@[
+                           [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:target
+                                                        attribute:NSLayoutAttributeCenterX
+                                                       multiplier:1.0 constant:offset.x],
+                           [NSLayoutConstraint constraintWithItem:v attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:target
+                                                        attribute:NSLayoutAttributeCenterY
+                                                       multiplier:1.0 constant:offset.y]
+                           ]];
 }
 
 + (void)setupConstraintsSameWHOfView:(UIView*)v inView:(UIView*)p {
@@ -124,3 +136,4 @@
 
 
 @end
+
