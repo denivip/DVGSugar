@@ -12,6 +12,7 @@
 
 - (BOOL)findAndResignFirstResponder;
 + (NSArray*)getAllSubviewIn:(UIView*)view;
++ (void)removeAllSubviewsIn:(UIView*)view;
 + (void)addSubview:(UIView*)v toView:(UIView*)p withAligment:(NSArray*)pWpH_xy_vWvH;
 + (void)setupConstraintsSameWHOfView:(UIView*)v inView:(UIView*)p;
 + (void)setupConstraintsInView:(UIView*)root makeView:(UIView*)v followView:(UIView*)p withInsets:(UIEdgeInsets)insets withOffset:(CGPoint)offset;

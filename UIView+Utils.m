@@ -21,6 +21,13 @@
     return allSubViews;
 }
 
++ (void)removeAllSubviewsIn:(UIView*)view {
+    NSArray* subvs = [view subviews];
+    for(UIView* subview in subvs){
+        [subview removeFromSuperview];
+    }
+}
+
 + (CGRect)distributeFlowlyViews:(NSArray*)views withWidth:(CGFloat)ww withSpacing:(CGFloat)zz
 {
     CGFloat b_x = 0;
