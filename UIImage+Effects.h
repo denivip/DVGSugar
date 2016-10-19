@@ -44,6 +44,7 @@
 + (UIImage *)imageWithImage:(UIImage *)image downscaledToHeight:(CGFloat)height;
 + (UIImage *)imageWithImage:(UIImage *)image croppedToSize:(CGSize)size;
 + (UIImage *)imageWithImage:(UIImage *)image aspectFilledToSize:(CGSize)newSize;
++ (UIImage *)imageWithImage:(UIImage *)image withScale:(CGFloat)scale;
 
 - (UIImage *)imageRotatedUp;
 - (UIImage *)imageAspectFillScaledToSize:(CGSize)size;
