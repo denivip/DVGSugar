@@ -5,4 +5,5 @@
 - (NSString *)descriptionWithoutEscapes;
 - (id)objectForKey:(id)aKey or:(id)defValue;
 - (id)objectForNestedKeys:(NSArray*)aKeys or:(id)defValue;
+- (NSString*)stringForKey:(id)aKey or:(id)defValue;
 @end
