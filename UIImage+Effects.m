@@ -509,6 +509,21 @@ void cleanupBuffer(void *userData, void *buf_data)
     return cropped;
 }
 
++ (UIImage *)imageWithImage:(UIImage *)image croppedToRect:(CGRect)rect
+{
+    if (image.scale > 1.0f) {
+        rect = CGRectMake(rect.origin.x * image.scale,
+                          rect.origin.y * image.scale,
+                          rect.size.width * image.scale,
+                          rect.size.height * image.scale);
+    }
+    
+    CGImageRef imageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
+    UIImage *result = [UIImage imageWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
+    CGImageRelease(imageRef);
+    return result;
+}
+
 + (UIImage *)imageWithImage:(UIImage *)image withScale:(CGFloat)scale
 {
     CGSize imageSize = image.size;

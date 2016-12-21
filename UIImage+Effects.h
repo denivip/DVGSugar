@@ -43,6 +43,7 @@
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 + (UIImage *)imageWithImage:(UIImage *)image downscaledToHeight:(CGFloat)height;
 + (UIImage *)imageWithImage:(UIImage *)image croppedToSize:(CGSize)size;
++ (UIImage *)imageWithImage:(UIImage *)image croppedToRect:(CGRect)rect;
 + (UIImage *)imageWithImage:(UIImage *)image aspectFilledToSize:(CGSize)newSize;
 + (UIImage *)imageWithImage:(UIImage *)image withScale:(CGFloat)scale;
 
