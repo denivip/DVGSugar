@@ -49,6 +49,17 @@
     return [strings componentsJoinedByString:@"\n"];
 }
 
+- (NSString*)stringForKey:(id)aKey or:(id)defValue {
+    id res = [self objectForKey:aKey];
+    if([res isKindOfClass:[NSNumber class]]){
+        res = [NSString stringWithFormat:@"%@",res];
+    }
+    if(res == nil || res == [NSNull null] || ![res isKindOfClass:[NSString class]]){
+        res = defValue;
+    }
+    return res;
+}
+
 - (id)objectForKey:(id)aKey or:(id)defValue {
     id res = [self objectForKey:aKey];
     if(res == nil || res == [NSNull null]){
