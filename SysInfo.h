@@ -28,6 +28,11 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
+#define kDVGIPhone6plusHeight 736.f
+#define kDVGIPhone6Height 667.f
+#define kDVGIPhone5Height 568.f
+#define kDVGIPhone4Height 480.f
+
 #endif
 #endif
 
