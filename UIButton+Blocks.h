@@ -10,10 +10,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIButton (Block)
+@interface UIControl (Block)
 
 @property (nonatomic, strong) NSMutableDictionary *actions;
 
-- (void) setAction:(NSString*)action withBlock:(void(^)())block;
+- (void)setTapBlock:(void(^)())block;
+- (void)setAction:(NSString*)action withBlock:(void(^)())block;
+@end
 
+@interface UIButton (Block)
+- (void)updateTitle:(NSString*)title;
+- (void)updateTitleFont:(UIFont*)titleFont;
+- (void)updateTitleColor:(UIColor*)titleColor;
+- (void)updateAttributedTitle:(NSAttributedString*)title;
 @end

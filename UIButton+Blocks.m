@@ -9,11 +9,13 @@
 #import "UIButton+Blocks.h"
 #import <objc/runtime.h>
 
-@implementation UIButton (Block)
-
+@implementation UIControl (Block)
 static char overviewKey;
-
 @dynamic actions;
+
+- (void) setTapBlock:(void(^)())block {
+    [self setAction:kUIButtonBlockTouchUpInside withBlock:block];
+}
 
 - (void) setAction:(NSString*)action withBlock:(void(^)())block {
     if(!block){
@@ -43,5 +45,22 @@ static char overviewKey;
     block = [[self actions] objectForKey:kUIButtonBlockTouchUpInside];
     block();
 }
+@end
 
+@implementation UIButton (Block)
+- (void)updateTitle:(NSString*)title {
+    [self setTitle:title forState:UIControlStateNormal];
+}
+
+- (void)updateAttributedTitle:(NSAttributedString*)title {
+    [self setAttributedTitle:title forState:UIControlStateNormal];
+}
+
+- (void)updateTitleFont:(UIFont*)titleFont {
+    self.titleLabel.font = titleFont;
+}
+
+- (void)updateTitleColor:(UIColor*)titleColor {
+    [self setTitleColor:titleColor forState:UIControlStateNormal];
+}
 @end
