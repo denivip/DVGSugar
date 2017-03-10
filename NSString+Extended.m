@@ -8,6 +8,23 @@
 
 #import "NSString+Extended.h"
 
+@implementation NSData (NSString_Extended)
+
+- (NSString *)dvg_hexadecimalString
+{
+    const unsigned char *dataBuffer = (const unsigned char *)(self.bytes);
+    if (!dataBuffer) return [NSString string];
+    
+    NSUInteger dataLength  = [self length];
+    NSMutableString *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
+    for (int i = 0; i < dataLength; ++i)
+        [hexString appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)dataBuffer[i]]];
+    
+    return [NSString stringWithString:hexString];
+}
+
+@end
+
 @implementation NSString (Extended)
 + (NSString *)stringWithBigNumber:(NSInteger)number {
     NSMutableString* res = [[NSMutableString alloc] init];
@@ -62,5 +79,13 @@
                                                                                                  CFStringConvertNSStringEncodingToEncoding(encoding));
 }
 
-
+- (NSString *) dvg_SHA512HashString {
+    NSData *keyData = [self dataUsingEncoding:NSASCIIStringEncoding];
+    uint8_t digest[CC_SHA512_DIGEST_LENGTH] = { 0 };
+    CC_SHA512(keyData.bytes, (CC_LONG)keyData.length, digest);
+    NSData *hashData = [NSData dataWithBytes:digest length:CC_SHA512_DIGEST_LENGTH];
+    NSString *signature = [hashData dvg_hexadecimalString];
+    
+    return signature;
+}
 @end

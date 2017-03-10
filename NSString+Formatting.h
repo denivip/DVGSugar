@@ -15,6 +15,7 @@
 +(NSString *)lengthFromMeters:(NSUInteger)meters;
 +(NSString *)niceNumbFromCount:(NSUInteger)count;
 +(NSString*)plurlFromCount:(NSUInteger)count with:(NSArray*)pluralforms;
++(BOOL)validateEmailWithString:(NSString*)email;
 @end
 
 @interface NSDate (Formatting)

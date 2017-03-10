@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 
+@interface NSData (NSString_Extended)
+- (NSString *)dvg_hexadecimalString;
+@end
+
 @interface NSString (Extended)
 - (NSString *)generateMD5:(NSString *)string;
 + (NSString *)stringWithBigNumber:(NSInteger)number;
@@ -19,4 +23,5 @@
 - (NSString *)URLDecode;
 - (NSString *)URLDecodeUsingEncoding:(NSStringEncoding)encoding;
 
+- (NSString *) dvg_SHA512HashString;
 @end
