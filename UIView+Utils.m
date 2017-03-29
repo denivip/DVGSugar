@@ -104,6 +104,7 @@
 
 - (BOOL)findAndResignFirstResponder
 {
+    [self endEditing:YES];
     if (self.isFirstResponder) {
         [self resignFirstResponder];
         return YES;
