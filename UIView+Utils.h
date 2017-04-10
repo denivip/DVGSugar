@@ -20,6 +20,7 @@
 + (void)setupConstraintsInView:(UIView*)root makeView:(UIView*)v followView:(UIView*)target
               withCenterOffset:(CGPoint)offset;
 + (CGRect)distributeFlowlyViews:(NSArray*)views withWidth:(CGFloat)ww withSpacing:(CGFloat)zz;
++ (void)initForI18nAccents:(UIView*)v;
 - (void)setRoundedBackgroundWithColor:(UIColor*)bg;
 @end
 

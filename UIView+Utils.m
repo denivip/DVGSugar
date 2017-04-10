@@ -135,6 +135,27 @@
     self.layer.masksToBounds = YES;
 }
 
++ (void)initForI18nAccents:(UIView*)v {
+    // Important for ES accents!
+    // http://stackoverflow.com/questions/13225761/custom-font-on-uibutton-title-clipped-on-top-of-word
+    if([v isKindOfClass:[UIButton class]]){
+        [((UIButton*)v) setContentVerticalAlignment:UIControlContentVerticalAlignmentFill];
+        return;
+    }
+    if([v isKindOfClass:[UILabel class]]){
+        UILabel* vlbl = (UILabel*)v;
+        NSString* details = vlbl.text;
+        if (details.length > 0) {
+            NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
+            style.lineHeightMultiple = 1.1f;
+            NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:details
+                                                                                  attributes:@{NSParagraphStyleAttributeName : style.copy}];
+            vlbl.attributedText = attributedTitle;
+        }else{
+            vlbl.attributedText = [[NSAttributedString alloc] initWithString:@""];
+        }
+    }
+}
 
 @end
 

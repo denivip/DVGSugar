@@ -50,10 +50,12 @@ static char overviewKey;
 @implementation UIButton (Block)
 - (void)updateTitle:(NSString*)title {
     [self setTitle:title forState:UIControlStateNormal];
+    [UIView initForI18nAccents:self];
 }
 
 - (void)updateAttributedTitle:(NSAttributedString*)title {
     [self setAttributedTitle:title forState:UIControlStateNormal];
+    [UIView initForI18nAccents:self];
 }
 
 - (void)updateTitleFont:(UIFont*)titleFont {
