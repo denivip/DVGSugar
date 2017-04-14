@@ -148,6 +148,7 @@
         if (details.length > 0) {
             NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
             style.lineHeightMultiple = 1.1f;
+            style.alignment = vlbl.textAlignment;
             NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:details
                                                                                   attributes:@{NSParagraphStyleAttributeName : style.copy}];
             vlbl.attributedText = attributedTitle;
