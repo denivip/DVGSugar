@@ -7,6 +7,8 @@
 //
 
 #import "UIView+Utils.h"
+#import <objc/runtime.h>
+#import <zlib.h>
 
 @implementation UIView (UIViewUtils)
 
@@ -156,6 +158,20 @@
             vlbl.attributedText = [[NSAttributedString alloc] initWithString:@""];
         }
     }
+}
+
+
+- (void)setAssocValue:(id)value forKey:(NSString*)key {
+    NSData *keyData = [key dataUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger keyHash = crc32(0, keyData.bytes, (int)keyData.length);
+    objc_setAssociatedObject (self, (const void*)keyHash, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (id)getAssocValueForKey:(NSString*)key {
+    NSData *keyData = [key dataUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger keyHash = crc32(0, keyData.bytes, (int)keyData.length);
+    id res = objc_getAssociatedObject(self, (const void*)keyHash);
+    return res;
 }
 
 @end

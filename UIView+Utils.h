@@ -22,5 +22,8 @@
 + (CGRect)distributeFlowlyViews:(NSArray*)views withWidth:(CGFloat)ww withSpacing:(CGFloat)zz;
 + (void)initForI18nAccents:(UIView*)v;
 - (void)setRoundedBackgroundWithColor:(UIColor*)bg;
+
+- (void)setAssocValue:(id)value forKey:(NSString*)key;
+- (id)getAssocValueForKey:(NSString*)key;
 @end
 
