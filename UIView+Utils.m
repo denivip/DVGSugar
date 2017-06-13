@@ -10,7 +10,44 @@
 #import <objc/runtime.h>
 #import <zlib.h>
 
+CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
+    NSArray *layers = panel.layer.sublayers;
+    return layers.firstObject;
+}
+
 @implementation UIView (UIViewUtils)
+
++ (UIView*)addHorizontalStrokeTo:(UIView *)parent edge:(UIRectEdge)edge {
+    const CGFloat kOnePixel = 1.0 / [UIScreen mainScreen].scale;
+    CGRect frame = parent.bounds;
+    UIViewAutoresizing mask = UIViewAutoresizingFlexibleWidth;
+    if (edge & UIRectEdgeBottom) {
+        frame.origin.y += frame.size.height - kOnePixel;
+        mask |= UIViewAutoresizingFlexibleTopMargin;
+    }
+    else {
+        mask |= UIViewAutoresizingFlexibleBottomMargin;
+    }
+    frame.size.height = kOnePixel;
+    
+    UIView *stroke = [[UIView alloc] initWithFrame:frame];
+    stroke.autoresizingMask = mask;
+    [parent addSubview:stroke];
+    return stroke;
+}
+
++ (UIView*)findSubviewIn:(UIView*)v withPredicate:(BOOL (^)(UIView* v))testingCondition {
+    if(testingCondition(v)){
+        return v;
+    }
+    for(UIView* sv in v.subviews){
+        UIView* subv_fo9und = [UIView findSubviewIn:sv withPredicate:testingCondition];
+        if(subv_fo9und){
+            return subv_fo9und;
+        }
+    }
+    return nil;
+}
 
 + (NSArray*)getAllSubviewIn:(UIView*)view {
     NSMutableArray* allSubViews = @[].mutableCopy;

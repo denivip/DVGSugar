@@ -10,7 +10,6 @@
 
 @interface UIView (UIViewUtils)
 
-- (BOOL)findAndResignFirstResponder;
 + (NSArray*)getAllSubviewIn:(UIView*)view;
 + (void)removeAllSubviewsIn:(UIView*)view;
 + (void)addSubview:(UIView*)v toView:(UIView*)p withAligment:(NSArray*)pWpH_xy_vWvH;
@@ -21,8 +20,11 @@
               withCenterOffset:(CGPoint)offset;
 + (CGRect)distributeFlowlyViews:(NSArray*)views withWidth:(CGFloat)ww withSpacing:(CGFloat)zz;
 + (void)initForI18nAccents:(UIView*)v;
-- (void)setRoundedBackgroundWithColor:(UIColor*)bg;
++ (UIView*)findSubviewIn:(UIView*)v withPredicate:(BOOL (^)(UIView* v))testingCondition;
++ (UIView*)addHorizontalStrokeTo:(UIView *)parent edge:(UIRectEdge)edge;
 
+- (void)setRoundedBackgroundWithColor:(UIColor*)bg;
+- (BOOL)findAndResignFirstResponder;
 - (void)setAssocValue:(id)value forKey:(NSString*)key;
 - (id)getAssocValueForKey:(NSString*)key;
 @end
