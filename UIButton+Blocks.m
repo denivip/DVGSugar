@@ -66,4 +66,8 @@ static char overviewKey;
 - (void)updateTitleColor:(UIColor*)titleColor {
     [self setTitleColor:titleColor forState:UIControlStateNormal];
 }
+
+- (void)updateImage:(NSString*)imageName {
+    [self setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+}
 @end

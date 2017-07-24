@@ -23,4 +23,5 @@
 - (void)updateTitleFont:(UIFont*)titleFont;
 - (void)updateTitleColor:(UIColor*)titleColor;
 - (void)updateAttributedTitle:(NSAttributedString*)title;
+- (void)updateImage:(NSString*)imageName;
 @end
