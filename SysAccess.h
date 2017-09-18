@@ -10,13 +10,14 @@
 #import <Foundation/Foundation.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
-#import "PSTAlertController.h"
+#import <CoreLocation/CoreLocation.h>
+#import <PSTAlertController/PSTAlertController.h>
 #import "SysInfo.h"
 @import Photos;
 
 @interface SysAccess: NSObject
 
-+ (void)showAccessPermissionError:(NSString*)pListKey;
++ (void)showAccessPermissionError:(NSString*)pListKey title:(NSString*)title;
 
 + (BOOL)isPhotoLibraryAccessible;
 + (BOOL)checkPhotoLibraryAccessWithCompletion:(dispatch_block_t)onOk;
@@ -28,5 +29,7 @@
 + (BOOL)checkCameraAccessWithCompletion:(dispatch_block_t)onOk;
 + (BOOL)checkCaptureAccessWithCompletion:(dispatch_block_t)onOk;
 
++ (BOOL)checkLocationAlwaysAccessWithCompletion:(dispatch_block_t)onOk;
++ (BOOL)checkLocationInUseAccessWithCompletion:(dispatch_block_t)onOk;
 @end
 

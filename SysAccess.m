@@ -25,7 +25,7 @@
                 }
                 return;
             }else{
-                [SysAccess showAccessPermissionError:@"NSPhotoLibraryUsageDescription"];
+                [SysAccess showAccessPermissionError:@"NSPhotoLibraryUsageDescription" title:nil];
             }
         });
     }];
@@ -57,7 +57,7 @@
                 }
                 return;
             }else{
-                [SysAccess showAccessPermissionError:@"NSCameraUsageDescription"];
+                [SysAccess showAccessPermissionError:@"NSCameraUsageDescription" title:nil];
             }
         });
     }];
@@ -89,7 +89,7 @@
                 }
                 return;
             }else{
-                [SysAccess showAccessPermissionError:@"NSMicrophoneUsageDescription"];
+                [SysAccess showAccessPermissionError:@"NSMicrophoneUsageDescription" title:nil];
             }
         });
     }];
@@ -111,10 +111,56 @@
     return NO;
 };
 
-+ (void)showAccessPermissionError:(NSString*)pListKey {
++ (BOOL)checkLocationInUseAccessWithCompletion:(dispatch_block_t)onOk {
+    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse){
+        if(onOk){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                onOk();
+            });
+            return YES;
+        }
+    }
+    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined){
+        CLLocationManager *manager = [CLLocationManager new];
+        [manager requestWhenInUseAuthorization];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SysAccess checkLocationInUseAccessWithCompletion:onOk];
+        });
+    }else{
+        [SysAccess showAccessPermissionError:@"NSLocationWhenInUseUsageDescription" title:NSLocalizedString(@"Location Access Required", nil)];
+    }
+    return NO;
+}
+
++ (BOOL)checkLocationAlwaysAccessWithCompletion:(dispatch_block_t)onOk {
+    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways){
+        if(onOk){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                onOk();
+            });
+            return YES;
+        }
+    }
+    if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined){
+        CLLocationManager *manager = [CLLocationManager new];
+        [manager requestWhenInUseAuthorization];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SysAccess checkLocationAlwaysAccessWithCompletion:onOk];
+        });
+    }else{
+        [SysAccess showAccessPermissionError:@"NSLocationAlwaysUsageDescription" title:NSLocalizedString(@"Location Access Required", nil)];
+    }
+    return NO;
+}
+
+
++ (void)showAccessPermissionError:(NSString*)pListKey title:(NSString*)title {
 #ifndef COMPILE_FOR_EXTENSION
+    if(title == nil){
+        title = NSLocalizedString(@"Access Required", nil);
+    }
     NSString* errText = [[NSBundle mainBundle] objectForInfoDictionaryKey:pListKey];
-    PSTAlertController *alert = [PSTAlertController presentDismissableAlertWithTitle:NSLocalizedString(@"Access Required", nil)
+    PSTAlertController *alert = [PSTAlertController presentDismissableAlertWithTitle:title
                                                                              message:errText
                                                                           controller:nil];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
