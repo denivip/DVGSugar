@@ -11,7 +11,6 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
-#import <PSTAlertController/PSTAlertController.h>
 #import "SysInfo.h"
 @import Photos;
 

@@ -1,4 +1,6 @@
 #import "SysAccess.h"
+#import <PSTAlertController/PSTAlertController.h>
+
 @implementation SysAccess
 
 + (BOOL)isPhotoLibraryAccessible {
