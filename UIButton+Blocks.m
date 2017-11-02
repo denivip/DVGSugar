@@ -74,4 +74,22 @@ static char overviewKey;
 - (void)updateImage:(NSString*)imageName {
     [self setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
+
++ (UIButton *)buttonWithImageNamed:(NSString *)imageName tintedWithColor:(UIColor *)tintColor {
+    UIImage* icon = nil;
+    if(imageName != nil){
+        if(tintColor == nil){
+            icon = [UIImage imageNamed:imageName];
+        }else{
+            icon = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        }
+    }
+    UIButton* backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backButton setImage:icon forState:UIControlStateNormal];
+    backButton.tintColor = tintColor?:[UIColor blackColor];
+    [backButton sizeToFit];
+    
+    backButton.frame = CGRectInset(backButton.frame, -8.f, -8.f);
+    return backButton;
+}
 @end

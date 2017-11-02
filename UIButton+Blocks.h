@@ -24,4 +24,5 @@
 - (void)updateTitleColor:(UIColor*)titleColor;
 - (void)updateAttributedTitle:(NSAttributedString*)title;
 - (void)updateImage:(NSString*)imageName;
++ (UIButton *)buttonWithImageNamed:(NSString *)imageName tintedWithColor:(UIColor *)tintColor;
 @end
