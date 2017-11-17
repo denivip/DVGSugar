@@ -14,8 +14,8 @@
 
 @property (nonatomic, strong) NSMutableDictionary *actions;
 
-- (void)setTapBlock:(void(^)())block;
-- (void)setAction:(NSString*)action withBlock:(void(^)())block;
+- (void)setTapBlock:(void(^)(void))block;
+- (void)setAction:(NSString*)action withBlock:(void(^)(void))block;
 @end
 
 @interface UIButton (Block)

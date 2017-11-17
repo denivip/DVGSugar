@@ -14,11 +14,11 @@
 static char overviewKey;
 @dynamic actions;
 
-- (void) setTapBlock:(void(^)())block {
+- (void) setTapBlock:(void(^)(void))block {
     [self setAction:kUIButtonBlockTouchUpInside withBlock:block];
 }
 
-- (void) setAction:(NSString*)action withBlock:(void(^)())block {
+- (void) setAction:(NSString*)action withBlock:(void(^)(void))block {
     if(!block){
         return;
     }
@@ -42,7 +42,7 @@ static char overviewKey;
 }
 
 - (void)doTouchUpInside:(id)sender {
-    void(^block)();
+    void(^block)(void);
     block = [[self actions] objectForKey:kUIButtonBlockTouchUpInside];
     block();
 }
