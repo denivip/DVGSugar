@@ -1,3 +1,4 @@
+
 #import "UIImage+Effects.h"
 
 @import Accelerate;
