@@ -4,6 +4,15 @@
 
 @implementation DVGImageUtils
 
++ (UIImage*)imageByApplyingWatermarkToImage:(UIImage*)inputImage atPos:(CGPoint)pos watermark:(UIImage*)watermarkImage {
+    UIGraphicsBeginImageContext(inputImage.size);
+    [inputImage drawInRect:CGRectMake(0, 0, inputImage.size.width, inputImage.size.height)];
+    [watermarkImage drawInRect:CGRectMake(pos.x, pos.y, watermarkImage.size.width, watermarkImage.size.height)];
+    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return result;
+}
+
 + (UIImage *)imageWithColor:(UIColor *)color withSize:(CGSize)size
 {
     static NSMutableDictionary* imageCaches = nil;

@@ -13,7 +13,7 @@
 + (NSMutableArray*)animatedImageWithImageNameFormatNoCache:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
 + (NSMutableArray*)animatedImageWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
 + (UIImageView *)imageViewWithImageNameFormat:(NSString *)imgformat animseqFrom:(int)val_b animseqTo:(int)val_t;
-
++ (UIImage*)imageByApplyingWatermarkToImage:(UIImage*)inputImage atPos:(CGPoint)pos watermark:(UIImage*)watermarkImage;
 //| ----------------------------------------------------------------------------
 //! Applies a blur, tint color, and saturation adjustment to @a inputImage,
 //! optionally within the area specified by @a maskImage.
