@@ -169,7 +169,7 @@
 + (NSString*)dvg_NiceDatestampSince:(NSDate*)dt
 {
     if(dt == nil || [dt timeIntervalSince1970] < 365*24*60*60){
-        return NSLocalizedString(@"", nil);
+        return @"";
     }
     NSDate* now = [NSDate date];
     if([NSDate isSameDayWithDate1:now date2:dt]){
