@@ -25,3 +25,8 @@
 
 - (NSString *) dvg_SHA512HashString;
 @end
+
+@interface NSBundle (Language)
+//+(NSBundle*)getLocalizationBundleForLang:(NSString*)l;
++(void)setLanguage:(NSString*)language;
+@end
