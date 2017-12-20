@@ -42,6 +42,10 @@ static char overviewKey;
 }
 
 - (void)doTouchUpInside:(id)sender {
+    [self triggerTapBlock];
+}
+
+- (void)triggerTapBlock {
     void(^block)(void);
     block = [[self actions] objectForKey:kUIButtonBlockTouchUpInside];
     block();
