@@ -166,7 +166,7 @@
                                                                              message:errText
                                                                           controller:nil];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        [alert addAction:[PSTAlertAction actionWithTitle:NSLocalizedString(@"Grant Access", nil) style:PSTAlertActionStyleDefault
+        [alert addAction:[PSTAlertAction actionWithTitle:NSLocalizedString(@"Grant Access", nil) style:0 //PSTAlertActionStyleDefault
                                                  handler:^(PSTAlertAction *action) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         }]];
