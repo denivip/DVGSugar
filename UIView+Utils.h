@@ -23,6 +23,8 @@
 + (UIView*)findSubviewIn:(UIView*)v withPredicate:(BOOL (^)(UIView* v))testingCondition;
 + (UIView*)addHorizontalStrokeTo:(UIView *)parent edge:(UIRectEdge)edge;
 
++ (CGRect)rectFromRelcenter:(CGPoint)centerAsFractions relSize:(CGPoint)sizeAsFractions parent:(UIView*)v;
+
 - (void)setRoundedBackgroundWithColor:(UIColor*)bg;
 - (BOOL)findAndResignFirstResponder;
 - (void)setAssocValue:(id)value forKey:(NSString*)key;

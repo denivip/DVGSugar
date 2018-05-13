@@ -16,6 +16,14 @@ CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
 }
 
 @implementation UIView (UIViewUtils)
++ (CGRect)rectFromRelcenter:(CGPoint)centerAsFractions relSize:(CGPoint)sizeAsFractions parent:(UIView*)v {
+    CGFloat w = v.frame.size.width*sizeAsFractions.x;
+    CGFloat h = v.frame.size.height*sizeAsFractions.y;
+    CGFloat x = v.frame.origin.x+v.frame.size.width*centerAsFractions.x-w*0.5;
+    CGFloat y = v.frame.origin.y+v.frame.size.height*centerAsFractions.y-h*0.5;
+    return CGRectMake(x, y, w, h);
+}
+
 
 + (UIView*)addHorizontalStrokeTo:(UIView *)parent edge:(UIRectEdge)edge {
     const CGFloat kOnePixel = 1.0 / [UIScreen mainScreen].scale;
