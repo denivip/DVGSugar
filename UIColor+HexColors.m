@@ -34,7 +34,9 @@
     }
     
     // check for string length
-    assert(7 == hexString.length || 4 == hexString.length);
+    if(!(7 == hexString.length || 4 == hexString.length)){
+        return nil;
+    }
     
     // check for 3 character HexStrings
     hexString = [[self class] hexStringTransformFromThreeCharacters:hexString];
