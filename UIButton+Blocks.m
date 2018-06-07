@@ -88,6 +88,7 @@ static char overviewKey;
             icon = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         }
     }
+    self.tintColor = tintColor?:[UIColor blackColor];
     [self setImage:icon forState:UIControlStateNormal];
 }
 
