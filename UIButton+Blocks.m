@@ -79,6 +79,18 @@ static char overviewKey;
     [self setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
 
+- (void)updateImage:(NSString*)imageName tintedWithColor:(UIColor *)tintColor {
+    UIImage* icon = nil;
+    if(imageName != nil){
+        if(tintColor == nil){
+            icon = [UIImage imageNamed:imageName];
+        }else{
+            icon = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        }
+    }
+    [self setImage:icon forState:UIControlStateNormal];
+}
+
 + (UIButton *)buttonWithImageNamed:(NSString *)imageName tintedWithColor:(UIColor *)tintColor {
     UIImage* icon = nil;
     if(imageName != nil){
