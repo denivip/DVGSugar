@@ -114,43 +114,71 @@
 };
 
 + (BOOL)checkLocationInUseAccessWithCompletion:(dispatch_block_t)onOk {
+    return [SysAccess checkLocationInUseAccessSilent:0 withCompletion:onOk];
+}
+
++ (BOOL)checkLocationInUseAccessSilent:(BOOL)silent withCompletion:(dispatch_block_t)onOk {
     if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse){
         if(onOk){
             dispatch_async(dispatch_get_main_queue(), ^{
                 onOk();
             });
-            return YES;
         }
+        return YES;
     }
     if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined){
-        CLLocationManager *manager = [CLLocationManager new];
-        [manager requestWhenInUseAuthorization];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [SysAccess checkLocationInUseAccessWithCompletion:onOk];
-        });
+        static int maxSecs2wait = 60;
+        static CLLocationManager *manager = nil;
+        maxSecs2wait--;
+        if(manager == nil){
+            manager = [CLLocationManager new];
+            [manager requestWhenInUseAuthorization];
+        }
+        if(maxSecs2wait>0){
+            // Pinging self (no need to setup delegates, etc)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [SysAccess checkLocationInUseAccessSilent:silent withCompletion:onOk];
+            });
+        }
     }else{
-        [SysAccess showAccessPermissionError:@"NSLocationWhenInUseUsageDescription" title:NSLocalizedString(@"Location Access Required", nil)];
+        if(!silent){
+            [SysAccess showAccessPermissionError:@"NSLocationWhenInUseUsageDescription" title:NSLocalizedString(@"Location Access Required", nil)];
+        }
     }
     return NO;
 }
 
 + (BOOL)checkLocationAlwaysAccessWithCompletion:(dispatch_block_t)onOk {
+    return [SysAccess checkLocationAlwaysAccessSilent:0 withCompletion:onOk];
+}
+
++ (BOOL)checkLocationAlwaysAccessSilent:(BOOL)silent withCompletion:(dispatch_block_t)onOk{
     if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways){
         if(onOk){
             dispatch_async(dispatch_get_main_queue(), ^{
                 onOk();
             });
-            return YES;
         }
+        return YES;
     }
     if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined){
-        CLLocationManager *manager = [CLLocationManager new];
-        [manager requestWhenInUseAuthorization];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [SysAccess checkLocationAlwaysAccessWithCompletion:onOk];
-        });
+        static int maxSecs2wait = 60;
+        static CLLocationManager *manager = nil;
+        maxSecs2wait--;
+        if(manager == nil){
+            manager = [CLLocationManager new];
+            [manager requestAlwaysAuthorization];
+        }
+        if(maxSecs2wait>0){
+            // Pinging self (no need to setup delegates, etc)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [SysAccess checkLocationAlwaysAccessSilent:silent withCompletion:onOk];
+            });
+        }
     }else{
-        [SysAccess showAccessPermissionError:@"NSLocationAlwaysUsageDescription" title:NSLocalizedString(@"Location Access Required", nil)];
+        if(!silent){
+            [SysAccess showAccessPermissionError:@"NSLocationAlwaysUsageDescription" title:NSLocalizedString(@"Location Access Required", nil)];
+        }
     }
     return NO;
 }

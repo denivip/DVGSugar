@@ -29,6 +29,8 @@
 + (BOOL)checkCaptureAccessWithCompletion:(dispatch_block_t)onOk;
 
 + (BOOL)checkLocationAlwaysAccessWithCompletion:(dispatch_block_t)onOk;
++ (BOOL)checkLocationAlwaysAccessSilent:(BOOL)silent withCompletion:(dispatch_block_t)onOk;
 + (BOOL)checkLocationInUseAccessWithCompletion:(dispatch_block_t)onOk;
++ (BOOL)checkLocationInUseAccessSilent:(BOOL)silent withCompletion:(dispatch_block_t)onOk;
 @end
 
