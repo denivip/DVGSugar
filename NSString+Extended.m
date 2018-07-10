@@ -80,6 +80,12 @@
                                                                                                  CFStringConvertNSStringEncodingToEncoding(encoding));
 }
 
+- (NSString *)convertFromHtmlEntites {
+    NSString* repl1 = [self stringByReplacingOccurrencesOfString:@"&#039;" withString:@"'"];
+    NSString* repl2 = [repl1 stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
+    return repl2;
+}
+
 - (NSString *) dvg_SHA512HashString {
     NSData *keyData = [self dataUsingEncoding:NSASCIIStringEncoding];
     uint8_t digest[CC_SHA512_DIGEST_LENGTH] = { 0 };

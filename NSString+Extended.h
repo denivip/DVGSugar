@@ -23,7 +23,9 @@
 - (NSString *)URLDecode;
 - (NSString *)URLDecodeUsingEncoding:(NSStringEncoding)encoding;
 
-- (NSString *) dvg_SHA512HashString;
+- (NSString *)convertFromHtmlEntites;
+
+- (NSString *)dvg_SHA512HashString;
 @end
 
 @interface NSBundle (Language)
