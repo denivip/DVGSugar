@@ -38,7 +38,7 @@
     return res;
 }
 
-- (NSString *)generateMD5:(NSString *)string{
++ (NSString *)generateMD5:(NSString *)string{
     const char *cStr = [string UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     
@@ -83,7 +83,8 @@
 - (NSString *)convertFromHtmlEntites {
     NSString* repl1 = [self stringByReplacingOccurrencesOfString:@"&#039;" withString:@"'"];
     NSString* repl2 = [repl1 stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
-    return repl2;
+    NSString* repl3 = [repl2 stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+    return repl3;
 }
 
 - (NSString *) dvg_SHA512HashString {
