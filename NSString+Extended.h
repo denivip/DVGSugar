@@ -26,6 +26,8 @@
 - (NSString *)convertFromHtmlEntites;
 
 - (NSString *)dvg_SHA512HashString;
+
+- (NSString *)trimWhitespace;
 @end
 
 @interface NSBundle (Language)

@@ -96,6 +96,11 @@
     
     return signature;
 }
+
+- (NSString *)trimWhitespace {
+    NSString *newString = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return newString;
+}
 @end
 
 
