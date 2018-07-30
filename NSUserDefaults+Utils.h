@@ -10,8 +10,14 @@
 
 @interface NSUserDefaults (Extended)
 
++(long long)fileCacheGetSize:(NSString*)filepath;
++(BOOL)fileCacheDelFile:(NSString*)filepath;
 +(NSString *)fileCachePath:(NSString*)fullNamespace;
-+(NSDictionary*)getFileDictForKey:(NSString*)key;
-+(BOOL)putFileDict:(NSDictionary*)dict forKey:(NSString*)key;
++(NSArray*)fileCacheListFilesAt:(NSString*)dirPath;
 
++(NSDictionary*)getFileDictForKey:(NSString*)key;
++(NSDictionary*)getFileDictForPath:(NSString*)filepath;
+
++(BOOL)putFileDict:(NSDictionary*)dict forKey:(NSString*)key;
++(BOOL)putFileDict:(NSDictionary*)dict forPath:(NSString*)filepath;
 @end
