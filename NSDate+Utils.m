@@ -150,4 +150,12 @@
     return [NSString stringWithFormat:@"%@, %@%@", dateString, timeString, [periodString uppercaseString]];
 }
 
++ (CGFloat)parseHhMmSs:(NSString*)stampstr {
+    NSArray* parts = [stampstr componentsSeparatedByString:@":"];
+    if([parts count] == 3){
+        CGFloat dt = [parts[0] floatValue]*60*60+[parts[1] floatValue]*60+[parts[2] floatValue];
+        return dt;
+    }
+    return 0;
+}
 @end

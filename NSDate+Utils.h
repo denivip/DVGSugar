@@ -16,5 +16,5 @@
 + (NSString*)dvg_NiceDatestampSince:(NSDate*)dt;
 + (NSString*)dvg_NiceTimestampWithDate:(NSDate *)date;
 + (NSString*)dvg_NiceTimesinceWithDate:(NSDate *)date short:(BOOL)isShort;
-
++ (CGFloat)parseHhMmSs:(NSString*)stampstr;
 @end
