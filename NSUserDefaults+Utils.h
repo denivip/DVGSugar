@@ -11,6 +11,7 @@
 @interface NSUserDefaults (Extended)
 
 +(long long)fileCacheGetSize:(NSString*)filepath;
++(NSDate*)fileCacheGetDate:(NSString*)filepath;
 +(BOOL)fileCacheDelFile:(NSString*)filepath;
 +(NSString *)fileCachePath:(NSString*)fullNamespace;
 +(NSArray*)fileCacheListFilesAt:(NSString*)dirPath;

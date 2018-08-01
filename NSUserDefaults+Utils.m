@@ -66,9 +66,22 @@
 +(long long)fileCacheGetSize:(NSString*)filepath {
     NSError *attributesError;
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:&attributesError];
+    if(attributesError != nil){
+        return -1;
+    }
     NSNumber *fileSizeNumber = [fileAttributes objectForKey:NSFileSize];
     long long fileSize = [fileSizeNumber longLongValue];
     return fileSize;
+}
+
++(NSDate*)fileCacheGetDate:(NSString*)filepath {
+    NSError *attributesError;
+    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:&attributesError];
+    if(attributesError != nil){
+        return nil;
+    }
+    NSDate *fileDate = [fileAttributes objectForKey:NSFileModificationDate];
+    return fileDate;
 }
 
 +(BOOL)fileCacheDelFile:(NSString*)filepath {
