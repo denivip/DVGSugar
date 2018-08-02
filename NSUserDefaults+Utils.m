@@ -64,7 +64,7 @@
 }
 
 +(long long)fileCacheGetSize:(NSString*)filepath {
-    NSError *attributesError;
+    NSError *attributesError = nil;
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:&attributesError];
     if(attributesError != nil){
         return -1;
@@ -75,7 +75,7 @@
 }
 
 +(NSDate*)fileCacheGetDate:(NSString*)filepath {
-    NSError *attributesError;
+    NSError *attributesError = nil;
     NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:filepath error:&attributesError];
     if(attributesError != nil){
         return nil;
