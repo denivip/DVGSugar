@@ -84,7 +84,8 @@
     NSString* repl1 = [self stringByReplacingOccurrencesOfString:@"&#039;" withString:@"'"];
     NSString* repl2 = [repl1 stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
     NSString* repl3 = [repl2 stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
-    return repl3;
+    NSString* repl4 = [repl3 stringByReplacingOccurrencesOfString:@"&oacute;" withString:@""];
+    return repl4;
 }
 
 - (NSString *) dvg_SHA512HashString {
