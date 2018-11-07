@@ -32,9 +32,14 @@
 #define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
 #define IS_IPHONE_6_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH <= 667.0)
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
-#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-#define kDVGIPhone6plusHeight 736.f
+// https://stackoverflow.com/questions/46192280/detect-if-the-device-is-iphone-x/47067296
+// 6p, 7, 8 has same size!!! https://i.stack.imgur.com/JcCJp.png
+#define IS_IPHONE_6P_7_8 (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+#define IS_IPHONE_6P_7_8_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH <= 736.0)
+
+
+#define kDVGIPhone6P_7_8Height 736.f
 #define kDVGIPhone6Height 667.f
 #define kDVGIPhone5Height 568.f
 #define kDVGIPhone4Height 480.f
