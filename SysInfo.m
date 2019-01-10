@@ -49,6 +49,55 @@
  */
 
 
+// https://stackoverflow.com/questions/46192280/detect-if-the-device-is-iphone-x)
++(NSString*)deviceModel
+{
+    static dispatch_once_t onceToken;
+    static NSString *strModelID = nil;
+    
+    dispatch_once(&onceToken, ^{
+#if TARGET_IPHONE_SIMULATOR
+        strModelID = NSProcessInfo.processInfo.environment[@"SIMULATOR_MODEL_IDENTIFIER"];
+#else
+        struct utsname systemInfo;
+        
+        uname(&systemInfo);
+        strModelID = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+#endif
+    });
+    return strModelID;
+}
+
++(BOOL)isIPhone8
+{
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,1"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,4"]){
+        return YES;
+    }
+    return NO;
+}
+
++(BOOL)isIPhone8p
+{
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,2"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,5"]){
+        return YES;
+    }
+    return NO;
+}
+
++(BOOL)isIPhoneX
+{
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,3"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,6"]){
+        return YES; // iPhone X
+    }
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone11,2"] || [[UIDevice deviceModel] isEqualToString:@"iPhone11,4"] || [[UIDevice deviceModel] isEqualToString:@"iPhone11,6"]){
+        return YES; // iPhone XS (Max)
+    }
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone11,8"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,6"]){
+        return YES;  // iPhone XR
+    }
+    return NO;
+}
+
 #pragma mark sysctlbyname utils
 - (NSString *) getSysInfoByName:(char *)typeSpecifier
 {

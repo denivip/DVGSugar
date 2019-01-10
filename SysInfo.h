@@ -30,8 +30,8 @@
 #define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
 #define IS_IPHONE_5_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH <= 568.0)
 #define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
-#define IS_IPHONE_6_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH <= 667.0)
-#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
+#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0 && ![UIDevice isIPhone8])
+#define IS_IPHONE_6_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH <= 667.0 && ![UIDevice isIPhone8])
 
 // https://stackoverflow.com/questions/46192280/detect-if-the-device-is-iphone-x/47067296
 // 6p, 7, 8 has same size!!! https://i.stack.imgur.com/JcCJp.png
@@ -63,6 +63,11 @@
 - (NSString *) macaddress;
 
 - (BOOL) hasRetinaDisplay;
+
++(NSString*)deviceModel;
++(BOOL)isIPhone8;
++(BOOL)isIPhone8p;
++(BOOL)isIPhoneX;
 @end
 
 #endif
