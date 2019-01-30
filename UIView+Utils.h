@@ -29,5 +29,7 @@
 - (BOOL)findAndResignFirstResponder;
 - (void)setAssocValue:(id)value forKey:(NSString*)key;
 - (id)getAssocValueForKey:(NSString*)key;
+
++ (NSLayoutConstraint *) findConstraintNamed:(NSString *)identifierTarget startWith:(UIView *)aView;
 @end
 

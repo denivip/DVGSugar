@@ -219,5 +219,29 @@ CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
     return res;
 }
 
++ (NSLayoutConstraint *) findConstraintNamed:(NSString *)identifierTarget startWith:(UIView *)aView
+{
+    // walk upward from item through ancestors
+    UIView *currentView = aView;
+    
+    while (currentView != nil)
+    {
+        NSArray *constraints = [currentView constraints];
+        NSInteger foundConstraintIndex = [constraints indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            return [((NSLayoutConstraint *)obj).identifier isEqualToString:identifierTarget];
+        }];
+        
+        
+        if (foundConstraintIndex != NSNotFound)
+        {
+            return constraints[foundConstraintIndex];
+        }
+        
+        // not found, so walk up the ancestor chain
+        currentView = currentView.superview;
+    }
+    
+    return nil;  // not found anywhere in item or ancestors!  :(
+}
 @end
 
