@@ -10,11 +10,15 @@
 #import <CommonCrypto/CommonDigest.h>
 
 // Commoly used Localization shortcuts
-#define NSL_STR(str1) (NSLocalizedString((str1),nil))
-#define NSL_STR2(str1, str2) [NSLocalizedString(str1,nil) stringByAppendingString:NSLocalizedString(str2,nil)]
-#define NSL_STR3(str1, str2, str3) [[NSLocalizedString(str1,nil) stringByAppendingString:NSLocalizedString(str2,nil)] stringByAppendingString:NSLocalizedString(str3,nil)]
-#define NSL_FRM2(str1, str2) [NSString stringWithFormat:NSLocalizedString(str1,nil), NSLocalizedString(str2,nil)]
-#define NSL_FRM3(str1, str2, str3) [NSString stringWithFormat:NSLocalizedString(str1,nil), NSLocalizedString(str2,nil), NSLocalizedString(str3,nil)]
+#define _NSLS(str1) (NSLocalizedString((str1),nil))
+// Localization test
+//#define _NSLS(str1) ([@"!" stringByAppendingString:NSLocalizedString((str1),nil)])
+
+#define NSL_STR(str1) (_NSLS(str1))
+#define NSL_STR2(str1, str2) [_NSLS(str1) stringByAppendingString:_NSLS(str2)]
+#define NSL_STR3(str1, str2, str3) [[_NSLS(str1) stringByAppendingString:_NSLS(str2)] stringByAppendingString:_NSLS(str3)]
+#define NSL_FRM2(str1, str2) [NSString stringWithFormat:_NSLS(str1), _NSLS(str2)]
+#define NSL_FRM3(str1, str2, str3) [NSString stringWithFormat:_NSLS(str1), _NSLS(str2), _NSLS(str3)]
 
 @interface NSData (NSString_Extended)
 - (NSString *)dvg_hexadecimalString;
