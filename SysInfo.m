@@ -4,6 +4,7 @@
 #include <sys/sysctl.h>
 #include <net/if.h>
 #include <net/if_dl.h>
+#include <sys/utsname.h>
 
 @implementation UIDevice (Hardware)
 /*
@@ -60,7 +61,6 @@
         strModelID = NSProcessInfo.processInfo.environment[@"SIMULATOR_MODEL_IDENTIFIER"];
 #else
         struct utsname systemInfo;
-        
         uname(&systemInfo);
         strModelID = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 #endif

@@ -31,5 +31,6 @@
 - (id)getAssocValueForKey:(NSString*)key;
 
 + (NSLayoutConstraint *) findConstraintNamed:(NSString *)identifierTarget startWith:(UIView *)aView;
++ (UIView*) findViewWithAI:(NSString*)accesibilityIdentifier startWith:(UIView *)aView NS_SWIFT_NAME(findViewWithAI(_:startWith:));
 @end
 

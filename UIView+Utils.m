@@ -243,5 +243,21 @@ CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
     
     return nil;  // not found anywhere in item or ancestors!  :(
 }
+
++ (UIView*) findViewWithAI:(NSString*)accesibilityIdentifier startWith:(UIView *)aView {
+    if(accesibilityIdentifier != nil && aView != nil){
+        if([aView.accessibilityIdentifier length]>0){NSLog(@"findViewWithAI %@", aView.accessibilityIdentifier);}
+        if([aView.accessibilityIdentifier isEqualToString:accesibilityIdentifier]){
+            return aView;
+        }
+        for(UIView* subv in aView.subviews){
+            UIView *finInSub = [UIView findViewWithAI:accesibilityIdentifier startWith:subv];
+            if(finInSub != nil){
+                return finInSub;
+            }
+        }
+    }
+    return nil;
+}
 @end
 

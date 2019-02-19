@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <CommonCrypto/CommonDigest.h>
 
+// Commoly used Localization shortcuts
+#define NSL_STR(str1) (NSLocalizedString((str1),nil))
+#define NSL_STR2(str1, str2) [NSLocalizedString(str1,nil) stringByAppendingString:NSLocalizedString(str2,nil)]
+#define NSL_STR3(str1, str2, str3) [[NSLocalizedString(str1,nil) stringByAppendingString:NSLocalizedString(str2,nil)] stringByAppendingString:NSLocalizedString(str3,nil)]
+#define NSL_FRM2(str1, str2) [NSString stringWithFormat:NSLocalizedString(str1,nil), NSLocalizedString(str2,nil)]
+#define NSL_FRM3(str1, str2, str3) [NSString stringWithFormat:NSLocalizedString(str1,nil), NSLocalizedString(str2,nil), NSLocalizedString(str3,nil)]
+
 @interface NSData (NSString_Extended)
 - (NSString *)dvg_hexadecimalString;
 @end
