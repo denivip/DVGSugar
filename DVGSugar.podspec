@@ -13,8 +13,8 @@ Pod::Spec.new do |s|
   #s.ios.resources = 'Assets/*'
   #s.ios.frameworks = 'UIKit'
   #s.dependency 'PSTAlertController'
-  #s.public_header_files = ... 
-  s.source_files = 'Classes/*'
+  #s.public_header_files = ...
+  s.source_files = 'ClassesCommon/*'
 
   s.module_name = 'DVGSugar'
 end
