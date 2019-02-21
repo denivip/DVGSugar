@@ -1,10 +1,6 @@
 #import "SysAccess.h"
 #import <DVGAlertController.h>
 
-#ifdef ENVIRONMENT_AppExtension
-#define COMPILE_FOR_EXTENSION
-#endif
-
 @implementation SysAccess
 
 + (BOOL)isPhotoLibraryAccessible {
@@ -196,13 +192,16 @@
     NSString* errText = [[NSBundle mainBundle] objectForInfoDictionaryKey:pListKey];
     DVGAlertController *alert = [DVGAlertController presentDismissableAlertWithTitle:title
                                                                              message:errText
-                                                                          controller:nil];
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        [alert addAction:[DVGAlertAction actionWithTitle:NSLocalizedString(@"Grant Access", nil) style:0
-                                                 handler:^(DVGAlertAction *action) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        }]];
-    }
+	                                                                      controller:nil];
+	if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+			[alert addAction:[DVGAlertAction actionWithTitle:NSLocalizedString(@"Grant Access", nil) style:0 handler:^(DVGAlertAction *action) {
+			// sharedApplication is unavailable for extensions
+			UIApplication *sharedApplication = [UIApplication performSelector:NSSelectorFromString(NSStringFromSelector(@selector(sharedApplication)))];
+			NSURL* settingsUrl = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+			[sharedApplication performSelector:NSSelectorFromString(NSStringFromSelector(@selector(openURL:))) withObject:settingsUrl];
+			//[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+	    }]];
+	}
 #endif
 }
 
