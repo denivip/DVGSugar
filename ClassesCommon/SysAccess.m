@@ -1,5 +1,5 @@
 #import "SysAccess.h"
-#import <PSTAlertController/PSTAlertController.h>
+#import <DVGAlertController.h>
 
 @implementation SysAccess
 
@@ -190,12 +190,12 @@
         title = NSLocalizedString(@"Access Required", nil);
     }
     NSString* errText = [[NSBundle mainBundle] objectForInfoDictionaryKey:pListKey];
-    PSTAlertController *alert = [PSTAlertController presentDismissableAlertWithTitle:title
+    DVGAlertController *alert = [DVGAlertController presentDismissableAlertWithTitle:title
                                                                              message:errText
                                                                           controller:nil];
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
-        [alert addAction:[PSTAlertAction actionWithTitle:NSLocalizedString(@"Grant Access", nil) style:0 //PSTAlertActionStyleDefault
-                                                 handler:^(PSTAlertAction *action) {
+        [alert addAction:[DVGAlertAction actionWithTitle:NSLocalizedString(@"Grant Access", nil) style:0
+                                                 handler:^(DVGAlertAction *action) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         }]];
     }
@@ -203,4 +203,3 @@
 }
 
 @end
-
