@@ -1,6 +1,10 @@
 #import "SysAccess.h"
 #import <DVGAlertController.h>
 
+#ifdef ENVIRONMENT_AppExtension
+#define COMPILE_FOR_EXTENSION
+#endif
+
 @implementation SysAccess
 
 + (BOOL)isPhotoLibraryAccessible {
