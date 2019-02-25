@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "DVGSugar"
-  s.version          = "0.0.4"
+  s.version          = "0.0.5"
   s.summary          = "Collection of usefull microclasses"
   s.homepage         = "http://denivip.ru/"
   s.license          = 'GPL'
@@ -12,7 +12,8 @@ Pod::Spec.new do |s|
   #s.ios.vendored_frameworks = '???.framework'
   #s.ios.resources = 'Assets/*'
   #s.ios.frameworks = 'UIKit'
-  #s.dependency 'PSTAlertController'
+  s.dependency 'libextobjc'
+
   #s.public_header_files = ...
   s.source_files = 'ClassesCommon/*'
 
