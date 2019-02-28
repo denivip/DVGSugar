@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SysInfo.h"
@@ -33,4 +32,3 @@
 + (BOOL)checkLocationInUseAccessWithCompletion:(dispatch_block_t)onOk;
 + (BOOL)checkLocationInUseAccessSilent:(BOOL)silent withCompletion:(dispatch_block_t)onOk;
 @end
-
