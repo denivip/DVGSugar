@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "DVGSugar"
-  s.version          = "0.0.6"
+  s.version          = "0.0.7"
   s.summary          = "Collection of usefull microclasses"
   s.homepage         = "http://denivip.ru/"
   s.license          = 'GPL'
@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/denivip/DVGSugar.git" }
 
   s.platform     = :ios
+  s.ios.deployment_target = '8.0'
   s.requires_arc = true
   #s.ios.vendored_frameworks = '???.framework'
   #s.ios.resources = 'Assets/*'
