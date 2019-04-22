@@ -6,46 +6,80 @@
 #include <net/if_dl.h>
 #include <sys/utsname.h>
 
-@implementation UIDevice (Hardware)
+@implementation UIDevice (SKChecks)
 
 + (SKComparisonResult)comparePointSeparatedVersionNumber:(NSString *)vOne withPointSeparatedVersionNumber:(NSString *)vTwo {
-  if (!vOne || !vTwo || [vOne length] < 1 || [vTwo length] < 1 || [vOne rangeOfString:@".."].location != NSNotFound ||
-    [vTwo rangeOfString:@".."].location != NSNotFound) {
-    return SKOrderedNotOrdered;
-  }
-  NSCharacterSet *numericalCharSet = [NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
-  NSString *vOneTrimmed = [vOne stringByTrimmingCharactersInSet:numericalCharSet];
-  NSString *vTwoTrimmed = [vTwo stringByTrimmingCharactersInSet:numericalCharSet];
-  if ([vOneTrimmed length] > 0 || [vTwoTrimmed length] > 0) {
-    return SKOrderedNotOrdered;
-  }
-  NSArray *vOneArray = [vOne componentsSeparatedByString:@"."];
-  NSArray *vTwoArray = [vTwo componentsSeparatedByString:@"."];
-  for (NSUInteger i = 0; i < MIN([vOneArray count], [vTwoArray count]); i++) {
-    NSInteger vOneInt = [[vOneArray objectAtIndex:i] intValue];
-    NSInteger vTwoInt = [[vTwoArray objectAtIndex:i] intValue];
-    if (vOneInt > vTwoInt) {
-      return kSKOrderedDescending;
-    } else if (vOneInt < vTwoInt) {
-      return kSKOrderedAscending;
+    if (!vOne || !vTwo || [vOne length] < 1 || [vTwo length] < 1 || [vOne rangeOfString:@".."].location != NSNotFound ||
+        [vTwo rangeOfString:@".."].location != NSNotFound) {
+        return kSKOrderedNotOrdered;
     }
-  }
-  if ([vOneArray count] > [vTwoArray count]) {
-    for (NSUInteger i = [vTwoArray count]; i < [vOneArray count]; i++) {
-      if ([[vOneArray objectAtIndex:i] intValue] > 0) {
-        return kSKOrderedDescending;
-      }
+    NSCharacterSet *numericalCharSet = [NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
+    NSString *vOneTrimmed = [vOne stringByTrimmingCharactersInSet:numericalCharSet];
+    NSString *vTwoTrimmed = [vTwo stringByTrimmingCharactersInSet:numericalCharSet];
+    if ([vOneTrimmed length] > 0 || [vTwoTrimmed length] > 0) {
+        return kSKOrderedNotOrdered;
     }
-  } else if ([vOneArray count] < [vTwoArray count]) {
-    for (NSUInteger i = [vOneArray count]; i < [vTwoArray count]; i++) {
-      if ([[vTwoArray objectAtIndex:i] intValue] > 0) {
-        return kSKOrderedAscending;
-      }
+    NSArray *vOneArray = [vOne componentsSeparatedByString:@"."];
+    NSArray *vTwoArray = [vTwo componentsSeparatedByString:@"."];
+    for (NSUInteger i = 0; i < MIN([vOneArray count], [vTwoArray count]); i++) {
+        NSInteger vOneInt = [[vOneArray objectAtIndex:i] intValue];
+        NSInteger vTwoInt = [[vTwoArray objectAtIndex:i] intValue];
+        if (vOneInt > vTwoInt) {
+            return kSKOrderedDescending;
+        } else if (vOneInt < vTwoInt) {
+            return kSKOrderedAscending;
+        }
     }
-  }
-  return kSKOrderedSame;
+    if ([vOneArray count] > [vTwoArray count]) {
+        for (NSUInteger i = [vTwoArray count]; i < [vOneArray count]; i++) {
+            if ([[vOneArray objectAtIndex:i] intValue] > 0) {
+                return kSKOrderedDescending;
+            }
+        }
+    } else if ([vOneArray count] < [vTwoArray count]) {
+        for (NSUInteger i = [vOneArray count]; i < [vTwoArray count]; i++) {
+            if ([[vTwoArray objectAtIndex:i] intValue] > 0) {
+                return kSKOrderedAscending;
+            }
+        }
+    }
+    return kSKOrderedSame;
 }
 
+
++(BOOL)isIPhone8
+{
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,1"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,4"]){
+        return YES;
+    }
+    return NO;
+}
+
++(BOOL)isIPhone8p
+{
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,2"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,5"]){
+        return YES;
+    }
+    return NO;
+}
+
++(BOOL)isIPhoneX
+{
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,3"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,6"]){
+        return YES; // iPhone X
+    }
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone11,2"] || [[UIDevice deviceModel] isEqualToString:@"iPhone11,4"] || [[UIDevice deviceModel] isEqualToString:@"iPhone11,6"]){
+        return YES; // iPhone XS (Max)
+    }
+    if([[UIDevice deviceModel] isEqualToString:@"iPhone11,8"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,6"]){
+        return YES;  // iPhone XR
+    }
+    return NO;
+}
+
+@end
+
+@implementation UIDevice (Hardware)
 
 /*
  Platforms
@@ -106,36 +140,6 @@
 #endif
     });
     return strModelID;
-}
-
-+(BOOL)isIPhone8
-{
-    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,1"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,4"]){
-        return YES;
-    }
-    return NO;
-}
-
-+(BOOL)isIPhone8p
-{
-    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,2"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,5"]){
-        return YES;
-    }
-    return NO;
-}
-
-+(BOOL)isIPhoneX
-{
-    if([[UIDevice deviceModel] isEqualToString:@"iPhone10,3"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,6"]){
-        return YES; // iPhone X
-    }
-    if([[UIDevice deviceModel] isEqualToString:@"iPhone11,2"] || [[UIDevice deviceModel] isEqualToString:@"iPhone11,4"] || [[UIDevice deviceModel] isEqualToString:@"iPhone11,6"]){
-        return YES; // iPhone XS (Max)
-    }
-    if([[UIDevice deviceModel] isEqualToString:@"iPhone11,8"] || [[UIDevice deviceModel] isEqualToString:@"iPhone10,6"]){
-        return YES;  // iPhone XR
-    }
-    return NO;
 }
 
 #pragma mark sysctlbyname utils
