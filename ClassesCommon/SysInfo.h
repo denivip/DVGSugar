@@ -6,11 +6,11 @@
 #import <UIKit/UIKit.h>
 
 
-#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
-#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
-#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
-#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([UIDevice comparePointSeparatedVersionNumber:[[UIDevice currentDevice] systemVersion] withPointSeparatedVersionNumber:v] == kSKOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([UIDevice comparePointSeparatedVersionNumber:[[UIDevice currentDevice] systemVersion] withPointSeparatedVersionNumber:v] == kSKOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([UIDevice comparePointSeparatedVersionNumber:[[UIDevice currentDevice] systemVersion] withPointSeparatedVersionNumber:v] != kSKOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([UIDevice comparePointSeparatedVersionNumber:[[UIDevice currentDevice] systemVersion] withPointSeparatedVersionNumber:v] == kSKOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([UIDevice comparePointSeparatedVersionNumber:[[UIDevice currentDevice] systemVersion] withPointSeparatedVersionNumber:v] != kSKOrderedDescending)
 #define iOS8 SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")
 #define iOS9 SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9.0")
 
@@ -46,7 +46,7 @@
 
 #endif
 
-
+typedef enum {kSKOrderedNotOrdered = -2, kSKOrderedAscending = -1, kSKOrderedSame = 0, kSKOrderedDescending = 1} SKComparisonResult;
 @interface UIDevice (Hardware)
 - (NSString *) platform;
 - (NSString *) hwmodel;
@@ -68,6 +68,8 @@
 +(BOOL)isIPhone8;
 +(BOOL)isIPhone8p;
 +(BOOL)isIPhoneX;
+
++ (SKComparisonResult)comparePointSeparatedVersionNumber:(NSString *)vOne withPointSeparatedVersionNumber:(NSString *)vTwo;
 @end
 
 #endif
