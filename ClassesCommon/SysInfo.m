@@ -7,6 +7,46 @@
 #include <sys/utsname.h>
 
 @implementation UIDevice (Hardware)
+
++ (SKComparisonResult)comparePointSeparatedVersionNumber:(NSString *)vOne withPointSeparatedVersionNumber:(NSString *)vTwo {
+  if (!vOne || !vTwo || [vOne length] < 1 || [vTwo length] < 1 || [vOne rangeOfString:@".."].location != NSNotFound ||
+    [vTwo rangeOfString:@".."].location != NSNotFound) {
+    return SKOrderedNotOrdered;
+  }
+  NSCharacterSet *numericalCharSet = [NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
+  NSString *vOneTrimmed = [vOne stringByTrimmingCharactersInSet:numericalCharSet];
+  NSString *vTwoTrimmed = [vTwo stringByTrimmingCharactersInSet:numericalCharSet];
+  if ([vOneTrimmed length] > 0 || [vTwoTrimmed length] > 0) {
+    return SKOrderedNotOrdered;
+  }
+  NSArray *vOneArray = [vOne componentsSeparatedByString:@"."];
+  NSArray *vTwoArray = [vTwo componentsSeparatedByString:@"."];
+  for (NSUInteger i = 0; i < MIN([vOneArray count], [vTwoArray count]); i++) {
+    NSInteger vOneInt = [[vOneArray objectAtIndex:i] intValue];
+    NSInteger vTwoInt = [[vTwoArray objectAtIndex:i] intValue];
+    if (vOneInt > vTwoInt) {
+      return kSKOrderedDescending;
+    } else if (vOneInt < vTwoInt) {
+      return kSKOrderedAscending;
+    }
+  }
+  if ([vOneArray count] > [vTwoArray count]) {
+    for (NSUInteger i = [vTwoArray count]; i < [vOneArray count]; i++) {
+      if ([[vOneArray objectAtIndex:i] intValue] > 0) {
+        return kSKOrderedDescending;
+      }
+    }
+  } else if ([vOneArray count] < [vTwoArray count]) {
+    for (NSUInteger i = [vOneArray count]; i < [vTwoArray count]; i++) {
+      if ([[vTwoArray objectAtIndex:i] intValue] > 0) {
+        return kSKOrderedAscending;
+      }
+    }
+  }
+  return kSKOrderedSame;
+}
+
+
 /*
  Platforms
  
