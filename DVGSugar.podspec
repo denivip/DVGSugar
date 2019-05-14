@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "DVGSugar"
-  s.version          = "0.0.11"
+  s.version          = "0.0.12"
   s.summary          = "Collection of usefull microclasses"
   s.homepage         = "http://denivip.ru/"
   s.license          = 'GPL'
@@ -16,17 +16,15 @@ Pod::Spec.new do |s|
   #s.ios.frameworks = 'UIKit'
   s.dependency 'libextobjc'
 
+  #s.public_header_files = ...
+  s.source_files = 'ClassesCommon/*'
 
   # https://miqu.me/blog/2016/11/28/app-extensions-xcode-and-cocoapods-omg/
   s.default_subspec = 'Core'
   s.subspec 'Core' do |core|
-    #s.public_header_files = ...
-    s.source_files = 'ClassesCommon/*'
   end
 
   s.subspec 'AppExtension' do |ext|
-    #s.public_header_files = ...
-    s.source_files = 'ClassesCommon/*'
     # For app extensions, disabling code paths using unavailable API
     ext.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'COMPILE_FOR_EXTENSION=1' }
   end
