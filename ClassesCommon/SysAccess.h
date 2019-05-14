@@ -31,4 +31,6 @@
 + (BOOL)checkLocationAlwaysAccessSilent:(BOOL)silent withCompletion:(dispatch_block_t)onOk;
 + (BOOL)checkLocationInUseAccessWithCompletion:(dispatch_block_t)onOk;
 + (BOOL)checkLocationInUseAccessSilent:(BOOL)silent withCompletion:(dispatch_block_t)onOk;
+
++ (void)pauseAppIdleTimer:(int)onoff;
 @end

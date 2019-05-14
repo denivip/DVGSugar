@@ -205,4 +205,25 @@
 #endif
 }
 
++ (void)pauseAppIdleTimer:(int)onoff
+{
+	static int currentState = 0;
+#ifndef COMPILE_FOR_EXTENSION
+	if(onoff > 0){
+		if(currentState == 0){
+			[UIApplication sharedApplication].idleTimerDisabled = YES;
+		}
+		currentState++;
+	}else if(onoff == 0){
+		currentState--;
+		if(currentState == 0){
+			[UIApplication sharedApplication].idleTimerDisabled = NO;
+		}
+	}else if(onoff < 0){
+		currentState = 0;
+		[UIApplication sharedApplication].idleTimerDisabled = NO;
+	}
+#endif
+}
+
 @end
