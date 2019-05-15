@@ -19,13 +19,13 @@ Pod::Spec.new do |s|
   # https://miqu.me/blog/2016/11/28/app-extensions-xcode-and-cocoapods-omg/
   s.default_subspec = 'Core'
   s.subspec 'Core' do |core|
-	  #core.public_header_files = 'ClassesCommon/*.{h}'
-	  core.source_files = 'ClassesCommon/*.{m,h}'
+    #core.public_header_files = 'ClassesCommon/*.{h}'
+    core.source_files = 'ClassesCommon/*.{m,h}'
   end
 
   s.subspec 'AppExtension' do |ext|
-	  #ext.public_header_files = 'ClassesCommon/*.{h}'
-	  ext.source_files = 'ClassesCommon/*.{m,h}'
+    #ext.public_header_files = 'ClassesCommon/*.{h}'
+    ext.source_files = 'ClassesCommon/*.{m,h}'
     # For app extensions, disabling code paths using unavailable API
     ext.pod_target_xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => 'COMPILE_FOR_EXTENSION=1' }
   end
