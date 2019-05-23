@@ -30,7 +30,7 @@
 - (void)setAssocValue:(id)value forKey:(NSString*)key;
 - (id)getAssocValueForKey:(NSString*)key;
 
-+ (NSLayoutConstraint *) findConstraintNamed:(NSString *)identifierTarget startWith:(UIView *)aView;
-+ (UIView*) findViewWithAI:(NSString*)accesibilityIdentifier startWith:(UIView *)aView NS_SWIFT_NAME(findViewWithAI(_:startWith:));
++ (NSLayoutConstraint *)findConstraintNamed:(NSString *)identifierTarget startWith:(UIView *)aView;
++ (UIView*)findViewWithAI:(NSString*)accesibilityIdentifier startWith:(UIView *)aView NS_SWIFT_NAME(findViewWithAI(_:startWith:));
++ (UIView*)nslUpdateIn:(UIView*)viewRoot AI:(NSString*)aiId Text:(NSString*)str;
 @end
-

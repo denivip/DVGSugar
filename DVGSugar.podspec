@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "DVGSugar"
-  s.version          = "0.0.13"
+  s.version          = "0.0.14"
   s.summary          = "Collection of usefull microclasses"
   s.homepage         = "http://denivip.ru/"
   s.license          = 'GPL'

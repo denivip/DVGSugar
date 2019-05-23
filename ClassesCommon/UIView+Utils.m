@@ -37,7 +37,7 @@ CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
         mask |= UIViewAutoresizingFlexibleBottomMargin;
     }
     frame.size.height = kOnePixel;
-    
+
     UIView *stroke = [[UIView alloc] initWithFrame:frame];
     stroke.autoresizingMask = mask;
     [parent addSubview:stroke];
@@ -87,7 +87,7 @@ CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
             b_x = 0;
             b_y += f.size.height+zz;
         }
-        
+
         f.origin = CGPointMake(b_x, b_y);
         v.frame = f;
         if(f.origin.x+f.size.width > b_w){
@@ -223,28 +223,28 @@ CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
 {
     // walk upward from item through ancestors
     UIView *currentView = aView;
-    
+
     while (currentView != nil)
     {
         NSArray *constraints = [currentView constraints];
         NSInteger foundConstraintIndex = [constraints indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             return [((NSLayoutConstraint *)obj).identifier isEqualToString:identifierTarget];
         }];
-        
-        
+
+
         if (foundConstraintIndex != NSNotFound)
         {
             return constraints[foundConstraintIndex];
         }
-        
+
         // not found, so walk up the ancestor chain
         currentView = currentView.superview;
     }
-    
+
     return nil;  // not found anywhere in item or ancestors!  :(
 }
 
-+ (UIView*) findViewWithAI:(NSString*)accesibilityIdentifier startWith:(UIView *)aView {
++ (UIView*)findViewWithAI:(NSString*)accesibilityIdentifier startWith:(UIView *)aView {
     if(accesibilityIdentifier != nil && aView != nil){
         //DBG: if([aView.accessibilityIdentifier length]>0){NSLog(@"findViewWithAI %@", aView.accessibilityIdentifier);}
         if([aView.accessibilityIdentifier isEqualToString:accesibilityIdentifier]){
@@ -259,5 +259,19 @@ CALayer *uiv_effectLayerInPanel(UIVisualEffectView *panel) {
     }
     return nil;
 }
-@end
 
++ (UIView*)nslUpdateIn:(UIView*)viewRoot AI:(NSString*)aiId Text:(NSString*)str {
+    UIView* targetView = [UIView findViewWithAI:aiId startWith:viewRoot];
+    if(targetView == nil){
+        return nil;
+    }
+    if([targetView isKindOfClass:[UILabel class]]){
+        ((UILabel*)targetView).text = str;
+    }
+    if([targetView isKindOfClass:[UIButton class]]){
+        [((UIButton*)targetView) updateTitle:str];
+    }
+    return targetView;
+}
+
+@end
