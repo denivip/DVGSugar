@@ -7,6 +7,7 @@
 //
 
 #import "UIView+Utils.h"
+#import "UIButton+Blocks.h"
 #import <objc/runtime.h>
 #import <zlib.h>
 
