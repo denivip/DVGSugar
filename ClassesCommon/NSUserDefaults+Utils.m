@@ -1,12 +1,5 @@
-//
-//  NSString_Extended.m
-//  NineHundredSeconds
-//
-//  Created by Sergey Shpygar on 13.05.15.
-//  Copyright (c) 2015 DENIVIP Group. All rights reserved.
-//
-
 #import "NSUserDefaults+Utils.h"
+#define DVGSUGAR_SHAREDDEFAULTS @"dvg.shared.userdefaults"
 
 @implementation NSUserDefaults (Extended)
 
@@ -108,4 +101,32 @@
     }
     return files;
 }
+
+
++(BOOL)sharedPutKey:(NSString*)key withValue:(id)value suite:(NSString*)sname
+{
+    NSUserDefaults* sharedDefs = [[NSUserDefaults alloc] initWithSuiteName: sname?:DVGSUGAR_SHAREDDEFAULTS];
+    if(!sharedDefs || [key length] == 0){
+        return NO;
+    }
+    //NSError *err = nil;
+    //NSData *plistData = [NSJSONSerialization dataWithJSONObject:value options:0 error:&err];
+    [sharedDefs setObject:value forKey:key];
+    [sharedDefs synchronize];
+    return YES;
+}
+
++(id)sharedGetKey:(NSString*)key withDefault:(id)defl suite:(NSString*)sname
+{
+    NSUserDefaults* sharedDefs = [[NSUserDefaults alloc] initWithSuiteName: sname?:DVGSUGAR_SHAREDDEFAULTS];
+    if(!sharedDefs || [key length] == 0){
+        return defl;
+    }
+    id result = [sharedDefs objectForKey:key];
+    if(result == nil || result == (id)[NSNull null]){
+        return defl;
+    }
+    return result;
+}
+
 @end
