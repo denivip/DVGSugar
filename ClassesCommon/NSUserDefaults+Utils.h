@@ -21,4 +21,8 @@
 
 +(BOOL)putFileDict:(NSDictionary*)dict forKey:(NSString*)key;
 +(BOOL)putFileDict:(NSDictionary*)dict forPath:(NSString*)filepath;
+
+
++(BOOL)sharedPutKey:(NSString*)key withValue:(id)value suite:(NSString*)sname;
++(id)sharedGetKey:(NSString*)key withDefault:(id)defl suite:(NSString*)sname;
 @end
