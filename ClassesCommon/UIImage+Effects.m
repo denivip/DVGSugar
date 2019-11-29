@@ -328,6 +328,85 @@ void cleanupBuffer(void *userData, void *buf_data)
 
 @implementation UIImage (DVUtility)
 
+#define MAX_SWAP_ITEMS 100
+- (UIImage *)imageWithSwap:(NSDictionary*)colorToColor {
+    if(colorToColor == nil || colorToColor.count == 0){
+        return self;
+    }
+    CGImageRef imageRef = [self CGImage];
+    size_t width = CGImageGetWidth(imageRef);
+    size_t height = CGImageGetHeight(imageRef);
+    //NSLog(@"imageWithSwap %lu %lu", width, height);
+    size_t bitsPerComponent = 8;
+    size_t bytesPerPixel    = 4;
+    size_t bytesPerRow      = width * bytesPerPixel;//(width * bitsPerComponent * bytesPerPixel + 7) / 8;
+    size_t dataSize         = bytesPerRow * height;
+    unsigned char *pixels = malloc(dataSize);
+    memset(pixels,0,(dataSize));
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB(); //color space info which we need to create our drawing env
+    CGContextRef context = CGBitmapContextCreate(pixels, width, height, bitsPerComponent, bytesPerRow, colorSpaceRef,
+                                                 kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrderDefault);
+    CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef); //draws the image to our env
+    CGFloat pixelWeights[MAX_SWAP_ITEMS] = {0};
+    CGFloat redTmp = 0;
+    CGFloat greenTmp = 0;
+    CGFloat blueTmp = 0;
+    int wId = 0;
+    CGFloat wSumm = 0.0;
+    for (int y=0;y<height;++y){
+        for (int x=0;x<width;++x){
+            size_t idx = (width*y+x)*bytesPerPixel;
+            CGFloat alpha = ((CGFloat)pixels[idx+0])/255.0;
+            CGFloat red = ((CGFloat)pixels[idx+1])/255.0;
+            CGFloat green = ((CGFloat)pixels[idx+2])/255.0;
+            CGFloat blue = ((CGFloat)pixels[idx+3])/255.0;
+            // getting RGB distance to each color in swap map
+            // normalizing weights
+            // and mixing swap colors accrodingly
+            // assuming enumeration always give same order
+            wSumm = 0.0;
+            wId = 0;
+            for(UIColor* c_key in colorToColor){
+                [c_key getRed:&redTmp green:&greenTmp blue:&blueTmp alpha:nil];
+                CGFloat dstSq = (redTmp-red)*(redTmp-red)+(greenTmp-green)*(greenTmp-green)+(blueTmp-blue)*(blueTmp-blue);
+                CGFloat dst = sqrt(dstSq);
+                wSumm += dst;
+                pixelWeights[wId] = dst;
+                wId++;
+                if(wId >= MAX_SWAP_ITEMS){// too much colors
+                    break;
+                }
+            }
+            wId = 0;
+            red = 0;
+            green = 0;
+            blue = 0;
+            for(UIColor* c_key in colorToColor){
+                UIColor* c_val = colorToColor[c_key];
+                [c_val getRed:&redTmp green:&greenTmp blue:&blueTmp alpha:nil];
+                red += redTmp*(pixelWeights[wId]/wSumm);
+                green += greenTmp*(pixelWeights[wId]/wSumm);
+                blue += blueTmp*(pixelWeights[wId]/wSumm);
+                wId++;
+                if(wId >= MAX_SWAP_ITEMS){// too much colors
+                    break;
+                }
+            }
+
+            pixels[idx+1] = red*255.0*alpha;
+            pixels[idx+2] = green*255.0*alpha;
+            pixels[idx+3] = blue*255.0*alpha;
+            pixels[idx+0] = alpha*255.0;
+        }
+    }
+    CGImageRef processedImageRef = CGBitmapContextCreateImage(context); //create a CGIMageRef from our pixeldata
+    UIImage* processedImage = [UIImage imageWithCGImage:processedImageRef scale:self.scale orientation:self.imageOrientation];
+    CGContextRelease(context);
+    free(pixels);
+    CGColorSpaceRelease(colorSpaceRef); //release the color space info
+    return processedImage;
+}
+
 - (UIImage *)imageRotatedUp {
     
     // No-op if the orientation is already correct
