@@ -51,6 +51,7 @@
 - (UIImage *)imageAspectFillScaledToSize:(CGSize)size;
 - (UIImage *)imageWithNormalizedOrientation;
 - (UIImage *)imageWithColor:(UIColor *)color1;
+- (UIImage *)imageWithSwap:(NSDictionary*)colorToColor;
 @end
 
 #endif /* UIImageEffects_h */
