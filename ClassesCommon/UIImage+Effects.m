@@ -329,9 +329,38 @@ void cleanupBuffer(void *userData, void *buf_data)
 @implementation UIImage (DVUtility)
 
 #define MAX_SWAP_ITEMS 100
-- (UIImage *)imageWithSwap:(NSDictionary*)colorToColor {
+- (UIImage *)imageWithSwap:(NSDictionary*)colorToColor  cache:(NSString*)cachekey {
     if(colorToColor == nil || colorToColor.count == 0){
         return self;
+    }
+    UIColor* c2c_keys[MAX_SWAP_ITEMS] = {0};
+    UIColor* c2c_vals[MAX_SWAP_ITEMS] = {0};
+    size_t c2c_size = 0;
+    for(UIColor* c_key in colorToColor){
+        c2c_keys[c2c_size] = c_key;
+        c2c_vals[c2c_size] = colorToColor[c_key];
+        c2c_size++;
+        if(c2c_size >= MAX_SWAP_ITEMS-1){
+            break;
+        }
+    }
+    static NSMutableDictionary* imageCache = nil;
+    if([cachekey length]>0){
+        // Adding colorinfo to key
+        CGFloat redTmp = 0;
+        CGFloat greenTmp = 0;
+        CGFloat blueTmp = 0;
+        for(int i = 0; i<c2c_size; i++){
+            UIColor* c_val = c2c_vals[i];
+            [c_val getRed:&redTmp green:&greenTmp blue:&blueTmp alpha:nil];
+            cachekey = [cachekey stringByAppendingFormat:@"_%.02f%.02f%.02f", redTmp, greenTmp, blueTmp];
+        }
+        if(imageCache == nil){
+            imageCache = [[NSMutableDictionary alloc] init];
+        }
+        if(imageCache[cachekey] != nil){
+            return imageCache[cachekey];
+        }
     }
     CGImageRef imageRef = [self CGImage];
     size_t width = CGImageGetWidth(imageRef);
@@ -363,26 +392,24 @@ void cleanupBuffer(void *userData, void *buf_data)
             // getting RGB distance to each color in swap map
             // normalizing weights
             // and mixing swap colors accrodingly
-            // assuming enumeration always give same order
             wSumm = 0.0;
             wId = 0;
-            for(UIColor* c_key in colorToColor){
+            for(int i = 0; i<c2c_size; i++){
+                UIColor* c_key = c2c_keys[i];
                 [c_key getRed:&redTmp green:&greenTmp blue:&blueTmp alpha:nil];
                 CGFloat dstSq = (redTmp-red)*(redTmp-red)+(greenTmp-green)*(greenTmp-green)+(blueTmp-blue)*(blueTmp-blue);
                 CGFloat dst = sqrt(dstSq);
                 wSumm += dst;
                 pixelWeights[wId] = dst;
                 wId++;
-                if(wId >= MAX_SWAP_ITEMS){// too much colors
-                    break;
-                }
             }
             wId = 0;
             red = 0;
             green = 0;
             blue = 0;
-            for(UIColor* c_key in colorToColor){
-                UIColor* c_val = colorToColor[c_key];
+            for(int i = 0; i<c2c_size; i++){
+                //UIColor* c_key = c2c_keys[i];
+                UIColor* c_val = c2c_vals[i];
                 [c_val getRed:&redTmp green:&greenTmp blue:&blueTmp alpha:nil];
                 red += redTmp*(pixelWeights[wId]/wSumm);
                 green += greenTmp*(pixelWeights[wId]/wSumm);
@@ -404,6 +431,9 @@ void cleanupBuffer(void *userData, void *buf_data)
     CGContextRelease(context);
     free(pixels);
     CGColorSpaceRelease(colorSpaceRef); //release the color space info
+    if([cachekey length]>0){
+        imageCache[cachekey] = processedImage;
+    }
     return processedImage;
 }
 
