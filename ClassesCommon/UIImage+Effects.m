@@ -376,11 +376,10 @@ void cleanupBuffer(void *userData, void *buf_data)
     CGContextRef context = CGBitmapContextCreate(pixels, width, height, bitsPerComponent, bytesPerRow, colorSpaceRef,
                                                  kCGImageAlphaPremultipliedFirst | kCGBitmapByteOrderDefault);
     CGContextDrawImage(context, CGRectMake(0, 0, width, height), imageRef); //draws the image to our env
-    CGFloat pixelWeights[MAX_SWAP_ITEMS] = {0};
+    CGFloat pixelWei[MAX_SWAP_ITEMS] = {0};
     CGFloat redTmp = 0;
     CGFloat greenTmp = 0;
     CGFloat blueTmp = 0;
-    int wId = 0;
     CGFloat wSumm = 0.0;
     for (int y=0;y<height;++y){
         for (int x=0;x<width;++x){
@@ -392,18 +391,22 @@ void cleanupBuffer(void *userData, void *buf_data)
             // getting RGB distance to each color in swap map
             // normalizing weights
             // and mixing swap colors accrodingly
-            wSumm = 0.0;
-            wId = 0;
+            CGFloat maxdst = 0;
             for(int i = 0; i<c2c_size; i++){
                 UIColor* c_key = c2c_keys[i];
                 [c_key getRed:&redTmp green:&greenTmp blue:&blueTmp alpha:nil];
                 CGFloat dstSq = (redTmp-red)*(redTmp-red)+(greenTmp-green)*(greenTmp-green)+(blueTmp-blue)*(blueTmp-blue);
                 CGFloat dst = sqrt(dstSq);
-                wSumm += dst;
-                pixelWeights[wId] = dst;
-                wId++;
+                if(dst > maxdst){
+                    maxdst = dst;
+                }
+                pixelWei[i] = dst;
             }
-            wId = 0;
+            wSumm = 0.0;
+            for(int i = 0; i<c2c_size; i++){
+                pixelWei[i] = 1.0 - pixelWei[i]/maxdst;
+                wSumm = wSumm + pixelWei[i];
+            }
             red = 0;
             green = 0;
             blue = 0;
@@ -411,13 +414,10 @@ void cleanupBuffer(void *userData, void *buf_data)
                 //UIColor* c_key = c2c_keys[i];
                 UIColor* c_val = c2c_vals[i];
                 [c_val getRed:&redTmp green:&greenTmp blue:&blueTmp alpha:nil];
-                red += redTmp*(pixelWeights[wId]/wSumm);
-                green += greenTmp*(pixelWeights[wId]/wSumm);
-                blue += blueTmp*(pixelWeights[wId]/wSumm);
-                wId++;
-                if(wId >= MAX_SWAP_ITEMS){// too much colors
-                    break;
-                }
+                CGFloat itemWeight = pixelWei[i]/wSumm;
+                red += redTmp*itemWeight;
+                green += greenTmp*itemWeight;
+                blue += blueTmp*itemWeight;
             }
 
             pixels[idx+1] = red*255.0*alpha;
