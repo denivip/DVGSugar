@@ -513,10 +513,6 @@ static NSUInteger PSTVisibleAlertsCount = 0;
 
 @implementation DVGAlertController (Convenience)
 
-+ (instancetype)actionWithTitle:(NSString *)title handler:(void (^)(DVGAlertAction *action))handler {
-    return [[self alloc] initWithTitle:title style:DVGAlertActionStyleDefault handler:handler];
-}
-
 + (instancetype)alertWithTitle:(NSString *)title message:(NSString *)message {
     return [[self alloc] initWithTitle:title message:message preferredStyle:DVGAlertControllerStyleAlert];
 }
